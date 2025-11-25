@@ -1,11 +1,16 @@
 import React from 'react';
 import Logo from '../Logo/Logo';
 import { NavLink } from 'react-router';
+import { MdArrowOutward } from "react-icons/md";
 
 const Header = () => {
     const links = <div className='text-base font-bold space-x-5'>
-        <NavLink>Home</NavLink>
-        <NavLink>About</NavLink>
+        <NavLink>Services</NavLink>
+        <NavLink>Coverage</NavLink>
+        <NavLink>About Us</NavLink>
+        <NavLink>Pricing</NavLink>
+        <NavLink>Blog</NavLink>
+        <NavLink>Contact</NavLink>
     </div>
     return (
         <div className="navbar bg-base-100 shadow-sm">
@@ -32,7 +37,11 @@ const Header = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <a className="btn">Button</a>
+                <button className="btn btn-primary text-black font-bold md:px-10 rounded-xl">Login</button>
+                <div className='border p-2 rounded-full bg-[#1f1f1f]'>
+                    <MdArrowOutward
+                        className='text-2xl text-primary' />
+                </div>
             </div>
         </div>
     );
