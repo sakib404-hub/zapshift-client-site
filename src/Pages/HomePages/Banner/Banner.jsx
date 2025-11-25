@@ -41,7 +41,6 @@ const Banner = () => {
             <Swiper
                 spaceBetween={30}
                 centeredSlides={true}
-                loopFillGroupWithBlank={true}
                 loop={true}
                 autoplay={{
                     delay: 3500,

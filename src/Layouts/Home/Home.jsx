@@ -4,6 +4,10 @@ import HowItWorks from '../../Pages/HomePages/HowItWorks/HowItWorks';
 import OurServices from '../../Pages/HomePages/OurServices/OurServices';
 import Companies from '../../Pages/HomePages/Companies/Companies';
 import Tracking from '../../Pages/HomePages/Tracking/Tracking';
+import Reviews from '../../Pages/HomePages/Reviews/Reviews';
+
+const reviewsPromise = fetch('/reviews.json')
+    .then((res) => res.json())
 
 const Home = () => {
     return (
@@ -26,6 +30,13 @@ const Home = () => {
             {/* tracking  */}
             <section>
                 <Tracking></Tracking>
+            </section>
+            <section className='max-w-7xl mx-auto my-10'>
+                <h2 className='text-3xl font-bold text-center
+                text-secondary
+                '>What our customers are sayings</h2>
+                <p className='text-center mx-auto max-w-xl'>Enhance posture, mobility, and well-being effortlessly with Posture Pro. Achieve proper alignment, reduce pain, and strengthen your body with ease!</p>
+                <Reviews reviewsPromise={reviewsPromise}></Reviews>
             </section>
         </div>
     );

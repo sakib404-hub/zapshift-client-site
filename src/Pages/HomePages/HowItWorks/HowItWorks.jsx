@@ -30,7 +30,9 @@ const HowItWorks = () => {
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
                 {
                     howitWorks.map((cmp) => {
-                        return <div className='p-4 bg-[#f9f9fa] rounded-2xl my-5 space-y-2 shadow-xl'>
+                        return <div
+                            key={cmp.id}
+                            className='p-4 bg-[#f9f9fa] rounded-2xl my-5 space-y-2 shadow-xl'>
                             <img src={carImg} alt="" />
                             <h3 className='text-xl font-semibold'>{cmp.title}</h3>
                             <p>{cmp.description}</p>
