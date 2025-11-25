@@ -3,6 +3,7 @@ import Banner from '../../Pages/HomePages/Banner/Banner';
 import HowItWorks from '../../Pages/HomePages/HowItWorks/HowItWorks';
 import OurServices from '../../Pages/HomePages/OurServices/OurServices';
 import Companies from '../../Pages/HomePages/Companies/Companies';
+import Tracking from '../../Pages/HomePages/Tracking/Tracking';
 
 const Home = () => {
     return (
@@ -21,6 +22,10 @@ const Home = () => {
             {/* companies we worked with*/}
             <section>
                 <Companies></Companies>
+            </section>
+            {/* tracking  */}
+            <section>
+                <Tracking></Tracking>
             </section>
         </div>
     );
