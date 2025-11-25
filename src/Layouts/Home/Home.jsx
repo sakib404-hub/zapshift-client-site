@@ -1,11 +1,18 @@
 import React from 'react';
-import ErrorPage from '../../Components/ErrorPage/ErrorPage';
 import Banner from '../../Pages/HomePages/Banner/Banner';
+import HowItWorks from '../../Pages/HomePages/HowItWorks/HowItWorks';
 
 const Home = () => {
     return (
         <div>
-            <Banner></Banner>
+            {/* hero section  */}
+            <section>
+                <Banner></Banner>
+            </section>
+            {/* how it works section  */}
+            <section>
+                <HowItWorks></HowItWorks>
+            </section>
         </div>
     );
 };
