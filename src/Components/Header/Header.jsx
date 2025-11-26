@@ -4,9 +4,9 @@ import { NavLink } from 'react-router';
 import { MdArrowOutward } from "react-icons/md";
 
 const Header = () => {
-    const links = <div className='text-base font-bold space-x-5'>
+    const links = <div className='flex flex-col md:flex-row text-base font-bold space-x-5'>
         <NavLink>Services</NavLink>
-        <NavLink>Coverage</NavLink>
+        <NavLink to={'/coverage'}>Coverage</NavLink>
         <NavLink>About Us</NavLink>
         <NavLink>Pricing</NavLink>
         <NavLink>Blog</NavLink>
@@ -21,7 +21,7 @@ const Header = () => {
                     </div>
                     <ul
                         tabIndex="-1"
-                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-100 mt-3 w-52 p-2 shadow">
                         {
                             links
                         }

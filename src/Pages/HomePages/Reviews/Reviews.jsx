@@ -1,27 +1,32 @@
 import React, { use } from 'react';
-import { EffectCoverflow, Pagination } from 'swiper/modules';
+import { Autoplay, EffectCoverflow, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 const Reviews = ({ reviewsPromise }) => {
     const reviews = use(reviewsPromise);
-    console.log(reviews);
+    // console.log(reviews);
     return (
         <Swiper
             effect="coverflow"
-            grabCursor
+            grabCursor={true}
             centeredSlides
             loop={true}
             slidesPerView={3}
             coverflowEffect={{
                 rotate: 50,
-                stretch: 0,
-                depth: 100,
+                stretch: '50%',
+                depth: 200,
+                scale: .75,
                 modifier: 1,
                 slideShadows: true
             }}
+            autoplay={{
+                delay: 2500,
+                disableOnInteraction: false
+            }}
             pagination
-            modules={[EffectCoverflow, Pagination]}
-            className="mySwiper my-10"
+            modules={[EffectCoverflow, Pagination, Autoplay]}
+            className="mySwiper my-10 mx-auto"
         >
             {reviews.map((review) => (
                 <SwiperSlide key={review.id}>
