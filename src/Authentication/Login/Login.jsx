@@ -65,7 +65,7 @@ const Login = () => {
         setLock(!lock)
     }
     return (
-        <div className="flex flex-col-reverse md:flex-row">
+        <div className="my-10 md:my-0 flex flex-col-reverse md:flex-row">
             <div className="h-auto flex bg-[#ffffff] items-center justify-center md:min-h-screen w-full md:w-1/2 p-5">
                 <form
                     onSubmit={handleFormSubmission}>
@@ -147,9 +147,9 @@ const Login = () => {
                         </div>
 
                         {/* Google Button */}
-                        <button className="btn w-full bg-gray-100 hover:bg-gray-200 text-black flex items-center gap-3">
+                        <button className="w-full flex items-center justify-center gap-3bg-white shadow-sm border border-gray-200 rounded-lg py-3 hover:bg-gray-100 transition-all duration-200">
                             <FcGoogle className="text-2xl" />
-                            Login with Google
+                            <span className="font-medium text-gray-700">Register with Google</span>
                         </button>
                     </div>
                 </form>

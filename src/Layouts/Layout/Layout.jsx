@@ -9,7 +9,7 @@ const Layout = () => {
             <header>
                 <Header></Header>
             </header>
-            <main className='min-h-screen border'>
+            <main className='border'>
                 <Outlet></Outlet>
             </main>
             <footer>
