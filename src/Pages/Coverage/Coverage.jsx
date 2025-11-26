@@ -7,6 +7,9 @@ import { IoIosSearch } from "react-icons/io";
 const Coverage = () => {
     const position = [23.684994, 90.356331]
     const locations = useLoaderData()
+    const handleSearchlocation = (event) => {
+        event.preventDefault();
+    }
     return (
         <div className='-z-1 md:p-10 bg-white'>
             {/* titile  */}
@@ -14,11 +17,14 @@ const Coverage = () => {
             {/* search box  */}
             <div className="join flex items-center justify-center my-10 w-full">
                 <div>
-                    <form action="">
-                        <label className="input w-[300px] md:w-xl lg:w-2xl validator join-item flex items-center gap-2 rounded-l-2xl">
+                    <form onSubmit={handleSearchlocation}>
+                        <label
+                            htmlFor='search'
+                            className="input w-[300px] md:w-xl lg:w-2xl validator join-item flex items-center gap-2 rounded-l-2xl">
                             <IoIosSearch className="text-xl opacity-50" />
                             <input
                                 type="email"
+                                name='search'
                                 placeholder="Search your Location"
                                 required />
                         </label>
