@@ -1,9 +1,10 @@
 import React from 'react';
 import Logo from '../Logo/Logo';
-import { NavLink } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
 import { MdArrowOutward } from "react-icons/md";
 
 const Header = () => {
+    const navigate = useNavigate();
     const links = <div className='flex flex-col md:flex-row text-base font-bold space-x-5'>
         <NavLink>Services</NavLink>
         <NavLink to={'/coverage'}>Coverage</NavLink>
@@ -12,6 +13,9 @@ const Header = () => {
         <NavLink>Blog</NavLink>
         <NavLink>Contact</NavLink>
     </div>
+    const handlelogin = () => {
+        navigate('/login');
+    }
     return (
         <div className="navbar bg-base-100 shadow-sm">
             <div className="navbar-start">
@@ -37,7 +41,9 @@ const Header = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <button className="btn btn-primary text-black font-bold md:px-10 rounded-xl">Login</button>
+                <button
+                    onClick={handlelogin}
+                    className="btn btn-primary text-black font-bold md:px-10 rounded-xl">Login</button>
                 <div className='border p-2 rounded-full bg-[#1f1f1f]'>
                     <MdArrowOutward
                         className='text-2xl text-primary' />
