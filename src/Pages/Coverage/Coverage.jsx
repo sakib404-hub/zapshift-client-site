@@ -1,8 +1,8 @@
-import React from 'react';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css'
 import { useLoaderData } from 'react-router';
 import { IoIosSearch } from "react-icons/io";
+import { AuthContext } from '../../Context/AuthContext/AuthContext';
 
 const Coverage = () => {
     const position = [23.684994, 90.356331]
