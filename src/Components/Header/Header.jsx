@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { use } from 'react';
 import Logo from '../Logo/Logo';
 import { NavLink, useNavigate } from 'react-router';
 import { MdArrowOutward } from "react-icons/md";
+import { AuthContext } from '../../Context/AuthContext/AuthContext';
 
 const Header = () => {
+    const { user } = use(AuthContext);
+    console.log(user);
     const navigate = useNavigate();
     const links = <div className='flex flex-col md:flex-row text-base font-bold space-x-5'>
         <NavLink>Services</NavLink>
@@ -15,6 +18,9 @@ const Header = () => {
     </div>
     const handlelogin = () => {
         navigate('/login');
+    }
+    const handlelogOut = () => {
+        console.log('Button is Cliked!');
     }
     return (
         <div className="navbar bg-base-100 shadow-sm">
@@ -41,13 +47,31 @@ const Header = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <button
-                    onClick={handlelogin}
-                    className="btn btn-primary text-black font-bold md:px-10 rounded-xl">Login</button>
-                <div className='border p-2 rounded-full bg-[#1f1f1f]'>
-                    <MdArrowOutward
-                        className='text-2xl text-primary' />
-                </div>
+
+                {user && (
+                    <div className="flex items-center justify-center mr-2">
+                        <img
+                            src={user.photoURL}
+                            alt="User"
+                            className="w-12 h-12 rounded-full border"
+                        />
+                    </div>
+                )}
+                {
+                    user ? <button
+                        onClick={handlelogOut}
+                        className="btn btn-primary text-black font-bold md:px-10 rounded-xl">LogOut
+                    </button> : <button
+                        onClick={handlelogin}
+                        className="btn btn-primary text-black font-bold md:px-10 rounded-xl">Login
+                    </button>
+                }
+                {
+                    !user && <div className='border p-2 rounded-full bg-[#1f1f1f]'>
+                        <MdArrowOutward
+                            className='text-2xl text-primary' />
+                    </div>
+                }
             </div>
         </div>
     );

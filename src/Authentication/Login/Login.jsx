@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import authImg from '../../assets/authImage.png'
 import { FaRegEnvelope, FaLock, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router";
 import { FaEye } from "react-icons/fa6";
 import Swal from 'sweetalert2';
+import { AuthContext } from '../../Context/AuthContext/AuthContext';
 
 const Login = () => {
+    const { googleLogin } = use(AuthContext)
     const [lock, setLock] = useState(false);
+    // console.log(googleLogin, loading);
 
     const handleFormSubmission = (event) => {
         event.preventDefault()
@@ -63,6 +66,17 @@ const Login = () => {
     const handleEye = () => {
         console.log('Button is Clicked!');
         setLock(!lock)
+    }
+
+    // handling google login 
+    const handleGoogleLogin = () => {
+        googleLogin()
+            .then((result) => {
+                console.log(result)
+            })
+            .then((error) => {
+                console.log(error.message)
+            })
     }
     return (
         <div className="my-10 md:my-0 flex flex-col-reverse md:flex-row">
@@ -147,7 +161,9 @@ const Login = () => {
                         </div>
 
                         {/* Google Button */}
-                        <button className="w-full flex items-center justify-center gap-3bg-white shadow-sm border border-gray-200 rounded-lg py-3 hover:bg-gray-100 transition-all duration-200">
+                        <button
+                            onClick={handleGoogleLogin}
+                            className="w-full flex items-center justify-center gap-3bg-white shadow-sm border border-gray-200 rounded-lg py-3 hover:bg-gray-100 transition-all duration-200">
                             <FcGoogle className="text-2xl" />
                             <span className="font-medium text-gray-700">Register with Google</span>
                         </button>
