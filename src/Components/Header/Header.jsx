@@ -4,6 +4,7 @@ import { NavLink, useNavigate } from 'react-router';
 import { MdArrowOutward } from "react-icons/md";
 import { AuthContext } from '../../Context/AuthContext/AuthContext';
 import Swal from 'sweetalert2';
+import { FaUser } from 'react-icons/fa';
 
 const Header = () => {
     const { user, logOut } = use(AuthContext);
@@ -76,11 +77,18 @@ const Header = () => {
 
                 {user && (
                     <div className="flex items-center justify-center mr-2">
-                        <img
-                            src={user.photoURL}
-                            alt="User"
-                            className="w-12 h-12 rounded-full border"
-                        />
+                        <div className='tooltip tooltip-bottom' data-tip={user.displayName} tabIndex={0}>
+                            {
+                                user.photoURL ? <img
+                                    src={user.photoURL}
+                                    alt="User"
+                                    className="w-12 h-12 rounded-full border"
+                                /> : <div className='bg-secondary w-12 h-12 rounded-full border flex items-center justify-center'>
+                                    <FaUser className='text-2xl text-white'></FaUser>
+                                </div>
+                            }
+                        </div>
+
                     </div>
                 )}
                 {

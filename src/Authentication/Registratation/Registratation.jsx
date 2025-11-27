@@ -6,9 +6,10 @@ import { Link } from "react-router";
 import authImg from "../../assets/authImage.png";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Context/AuthContext/AuthContext";
+import { updateProfile } from "firebase/auth";
 
 const Register = () => {
-    const { googleLogin } = use(AuthContext)
+    const { googleLogin, createUser } = use(AuthContext)
     const [showPass, setShowPass] = useState(false);
 
     const handleEyeToggle = () => {
@@ -21,7 +22,92 @@ const Register = () => {
         const email = e.target.email.value;
         const password = e.target.password.value;
 
-        console.log(name, email, password);
+
+        // password validation 
+        const lowerCase = /[a-z]/;
+        const uppercase = /[A-Z]/;
+        if (password < 8) {
+            Swal.fire({
+                icon: "error",
+                title: "Invalid Password",
+                text: "Password must be at least 8 characters long.",
+                timer: 2000,
+                showConfirmButton: false,
+                timerProgressBar: true,
+                position: "top-end",
+                toast: true
+            });
+            return;
+        }
+        if (!lowerCase.test(password)) {
+            Swal.fire({
+                icon: "error",
+                title: "Invalid Password",
+                text: "Password must include at least one lowercase letter.",
+                timer: 2000,
+                showConfirmButton: false,
+                timerProgressBar: true,
+                position: "top-end",
+                toast: true
+            });
+            return;
+        }
+        if (!uppercase.test(password)) {
+            Swal.fire({
+                icon: "error",
+                title: "Invalid Password",
+                text: "Password must include at least one uppercase letter.",
+                timer: 2000,
+                showConfirmButton: false,
+                timerProgressBar: true,
+                position: "top-end",
+                toast: true
+            });
+            return;
+        }
+
+        createUser(email, password)
+            .then((res) => {
+                updateProfile(res.user, { displayName: name })
+                    .then(() => {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: `Welcome, ${name}!`,
+                            text: "Your account has been created successfully.",
+                            showConfirmButton: false,
+                            timer: 2500,
+                            toast: true,
+                            timerProgressBar: true
+                        });
+                        e.target.reset();
+
+                    })
+                    .catch((error) => {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "error",
+                            title: "Profile Update Failed!",
+                            text: error.message,
+                            showConfirmButton: false,
+                            timer: 2500,
+                            toast: true,
+                            timerProgressBar: true
+                        });
+                    })
+            })
+            .catch((error) => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Signup Failed!",
+                    text: error.message,
+                    showConfirmButton: false,
+                    timer: 2500,
+                    toast: true,
+                    timerProgressBar: true
+                });
+            })
     };
 
     //handling the google login
@@ -52,7 +138,6 @@ const Register = () => {
                 });
             })
     }
-
     return (
         <div className="my-10 md:my-0 flex flex-col-reverse md:flex-row">
             {/* Left Side Form */}

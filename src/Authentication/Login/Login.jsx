@@ -18,49 +18,6 @@ const Login = () => {
         const password = event.target.password.value;
         console.log('Button Clicked!', email, password)
 
-        // password validation 
-        const lowerCase = /[a-z]/;
-        const uppercase = /[A-Z]/;
-        if (password < 8) {
-            Swal.fire({
-                icon: "error",
-                title: "Invalid Password",
-                text: "Password must be at least 8 characters long.",
-                timer: 2000,
-                showConfirmButton: false,
-                timerProgressBar: true,
-                position: "top-end",
-                toast: true
-            });
-            return;
-        }
-        if (!lowerCase.test(password)) {
-            Swal.fire({
-                icon: "error",
-                title: "Invalid Password",
-                text: "Password must include at least one lowercase letter.",
-                timer: 2000,
-                showConfirmButton: false,
-                timerProgressBar: true,
-                position: "top-end",
-                toast: true
-            });
-            return;
-        }
-        if (!uppercase.test(password)) {
-            Swal.fire({
-                icon: "error",
-                title: "Invalid Password",
-                text: "Password must include at least one uppercase letter.",
-                timer: 2000,
-                showConfirmButton: false,
-                timerProgressBar: true,
-                position: "top-end",
-                toast: true
-            });
-            return;
-        }
-
 
     }
     const handleEye = () => {
