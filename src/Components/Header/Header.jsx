@@ -3,10 +3,12 @@ import Logo from '../Logo/Logo';
 import { NavLink, useNavigate } from 'react-router';
 import { MdArrowOutward } from "react-icons/md";
 import { AuthContext } from '../../Context/AuthContext/AuthContext';
+import Swal from 'sweetalert2';
 
 const Header = () => {
-    const { user } = use(AuthContext);
+    const { user, logOut } = use(AuthContext);
     console.log(user);
+    console.log(logOut);
     const navigate = useNavigate();
     const links = <div className='flex flex-col md:flex-row text-base font-bold space-x-5'>
         <NavLink>Services</NavLink>
@@ -20,7 +22,31 @@ const Header = () => {
         navigate('/login');
     }
     const handlelogOut = () => {
-        console.log('Button is Cliked!');
+        logOut()
+            .then(() => {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Logged Out Successfully!",
+                    text: "You have been logged out.",
+                    showConfirmButton: false,
+                    timer: 2000,
+                    toast: true,
+                    timerProgressBar: true
+                });
+            })
+            .catch((error) => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Logout Failed!",
+                    text: error.message,
+                    showConfirmButton: false,
+                    timer: 2000,
+                    toast: true,
+                    timerProgressBar: true
+                });
+            })
     }
     return (
         <div className="navbar bg-base-100 shadow-sm">

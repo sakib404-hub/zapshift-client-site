@@ -72,10 +72,28 @@ const Login = () => {
     const handleGoogleLogin = () => {
         googleLogin()
             .then((result) => {
-                console.log(result)
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: `Welcome, ${result.user.displayName}!`,
+                    text: "You have logged in with Google.",
+                    showConfirmButton: false,
+                    timer: 2000,
+                    toast: true,
+                    timerProgressBar: true
+                });
             })
             .then((error) => {
-                console.log(error.message)
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Login Failed!",
+                    text: error.message,
+                    showConfirmButton: false,
+                    timer: 2000,
+                    toast: true,
+                    timerProgressBar: true
+                });
             })
     }
     return (

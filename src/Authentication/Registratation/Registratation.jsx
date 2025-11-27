@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { FaRegEnvelope, FaLock, FaEyeSlash, FaUser } from "react-icons/fa";
 import { FaEye } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router";
 import authImg from "../../assets/authImage.png";
+import Swal from "sweetalert2";
+import { AuthContext } from "../../Context/AuthContext/AuthContext";
 
 const Register = () => {
+    const { googleLogin } = use(AuthContext)
     const [showPass, setShowPass] = useState(false);
 
     const handleEyeToggle = () => {
@@ -20,6 +23,35 @@ const Register = () => {
 
         console.log(name, email, password);
     };
+
+    //handling the google login
+    const handleGoogleLogin = () => {
+        googleLogin()
+            .then((result) => {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: `Welcome, ${result.user.displayName}!`,
+                    text: "You have logged in with Google.",
+                    showConfirmButton: false,
+                    timer: 2000,
+                    toast: true,
+                    timerProgressBar: true
+                });
+            })
+            .then((error) => {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Login Failed!",
+                    text: error.message,
+                    showConfirmButton: false,
+                    timer: 2000,
+                    toast: true,
+                    timerProgressBar: true
+                });
+            })
+    }
 
     return (
         <div className="my-10 md:my-0 flex flex-col-reverse md:flex-row">
@@ -111,7 +143,9 @@ const Register = () => {
                         </div>
 
                         {/* Google Button */}
-                        <button className="w-full flex items-center justify-center gap-3bg-white shadow-sm border border-gray-200 rounded-lg py-3 hover:bg-gray-100 transition-all duration-200">
+                        <button
+                            onClick={handleGoogleLogin}
+                            className="w-full flex items-center justify-center gap-3bg-white shadow-sm border border-gray-200 rounded-lg py-3 hover:bg-gray-100 transition-all duration-200">
                             <FcGoogle className="text-2xl" />
                             <span className="font-medium text-gray-700">Register with Google</span>
                         </button>
