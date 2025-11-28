@@ -1,6 +1,6 @@
 import React, { use } from 'react';
 import Logo from '../Logo/Logo';
-import { NavLink, useNavigate } from 'react-router';
+import { Link, NavLink, useNavigate } from 'react-router';
 import { MdArrowOutward } from "react-icons/md";
 import { AuthContext } from '../../Context/AuthContext/AuthContext';
 import Swal from 'sweetalert2';
@@ -100,6 +100,9 @@ const Header = () => {
                         className="btn btn-primary text-black font-bold md:px-10 rounded-xl">Login
                     </button>
                 }
+                <div>
+                    <Link className='btn btn-primary text-black ml-2 rounded-xl'>Be a Rider</Link>
+                </div>
                 {
                     !user && <div className='border p-2 rounded-full bg-[#1f1f1f]'>
                         <MdArrowOutward
