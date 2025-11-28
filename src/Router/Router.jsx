@@ -10,6 +10,7 @@ import Login2 from "../Authentication/Login/login2";
 import Registratation2 from "../Authentication/Registratation/Registratation2";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import Rider from "../Pages/Rider/Rider";
+import SendAPercel from "../Pages/SendAPercel/SendAPercel";
 
 export const router = createBrowserRouter([
     {
@@ -30,6 +31,12 @@ export const router = createBrowserRouter([
                 path: '/rider',
                 element: <PrivateRoute>
                     <Rider></Rider>
+                </PrivateRoute>
+            },
+            {
+                path: '/send-percel',
+                element: <PrivateRoute>
+                    <SendAPercel></SendAPercel>
                 </PrivateRoute>
             }
         ]

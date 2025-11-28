@@ -10,12 +10,16 @@ const Header = () => {
     const { user, logOut } = use(AuthContext);
     const navigate = useNavigate();
     const links = <div className='flex flex-col md:flex-row text-base font-bold space-x-5'>
-        <NavLink>Services</NavLink>
-        <NavLink to={'/coverage'}>Coverage</NavLink>
-        <NavLink>About Us</NavLink>
-        <NavLink>Pricing</NavLink>
-        <NavLink>Blog</NavLink>
-        <NavLink>Contact</NavLink>
+        <NavLink
+            to={'/'}
+            className={'nav-link px-6 py-2 rounded-2xl'}>Home</NavLink>
+        <NavLink
+            to={'/coverage'}
+            className={'nav-link px-6 py-2 rounded-2xl'}>Coverage</NavLink>
+        <NavLink
+            to={'/send-percel'}
+            className={'nav-link px-6 py-2 rounded-2xl'}>Send Percel</NavLink>
+        <NavLink className='px-6 py-2 rounded-2xl'>About Us</NavLink>
     </div>
     const handlelogin = () => {
         navigate('/login');

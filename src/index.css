@@ -23,3 +23,16 @@ body{
   font-optical-sizing: auto;
   font-style: normal;
 }
+
+.nav-link {
+  transition: all 0.3s ease; /* smooth animation */
+}
+
+.nav-link:hover {
+  color: oklch(80% 0.25 80);
+}
+
+.nav-link.active {
+  background-color: #CAEB66;
+  color: black;
+}
