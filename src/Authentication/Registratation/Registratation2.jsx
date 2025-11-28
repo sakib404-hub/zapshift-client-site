@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { FaEye, FaEyeSlash, FaLock, FaRegEnvelope, FaUser } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import { Link } from 'react-router';
-// import useAuth from '../../Hooks/useAuth/useAuth';
+import useAuth from '../../Hooks/useAuth/useAuth';
 import Swal from 'sweetalert2';
 import SocialLogin from '../SocialLogin/SocialLogin';
 import axios from 'axios';
@@ -11,47 +11,74 @@ import axios from 'axios';
 const Registratation2 = () => {
     const [showPass, setShowPass] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm()
-    // const { createUser } = useAuth();
+    const { createUser, updateInformation, setUser } = useAuth();
 
 
     //Handling the eye toogle
     const handleEyeToggle = () => {
         setShowPass(!showPass);
     };
-    const handleRegister = (data) => {
-        //? 1. Getting the image from the Form
-        const profileImage = data.photo[0];
-        //? 2. Preaparing the image for upload
-        const formData = new FormData();
-        formData.append('image', profileImage)
-        //? 3. posting the image to imageBB
-        const url = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`
-        //? 4. Posting the image through axios
-        axios.post(url, formData)
-            .then((res) => {
-                console.log(res.data.data.url)
+    const handleRegister = async (data) => {
+        const profile = {};
+        try {
+            //? 1. Getting the image from the Form
+            const profileImage = data.photo[0];
+            //? 2. Preaparing the image for upload
+            const formData = new FormData();
+            formData.append('image', profileImage)
+            //? 3. posting the image to imageBB
+            const url = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`
+
+            const res = await axios.post(url, formData)
+            profile.photoURL = res.data.data.url;
+        } catch (error) {
+            console.log(error.message)
+        }
+        profile.displayName = data.name;
+
+        //creating the User
+        createUser(data.email, data.password)
+            .then((result) => {
+                updateInformation(profile)
+                    .then(() => {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: `Welcome, ${data.name}!`,
+                            text: "Your account has been created successfully.",
+                            showConfirmButton: false,
+                            timer: 2500,
+                            toast: true,
+                            timerProgressBar: true
+                        });
+                        setUser(result.user)
+
+                    })
+                    .catch((error) => {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "error",
+                            title: "profile Updation Failed!!",
+                            text: error.message,
+                            showConfirmButton: false,
+                            timer: 2500,
+                            toast: true,
+                            timerProgressBar: true
+                        });
+                    })
             })
             .catch((error) => {
-                console.log((error))
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Signup Failed!",
+                    text: error.message,
+                    showConfirmButton: false,
+                    timer: 2500,
+                    toast: true,
+                    timerProgressBar: true
+                });
             })
-
-        console.log(data);
-        // createUser(data.email, data.password)
-        //     .then((result) => {
-        //         console.log(result.user);
-        //     })
-        //     .error((error) => {
-        //         Swal.fire({
-        //             position: "top-end",
-        //             icon: "error",
-        //             title: "Signup Failed!",
-        //             text: error.message,
-        //             showConfirmButton: false,
-        //             timer: 2500,
-        //             toast: true,
-        //             timerProgressBar: true
-        //         });
-        //     })
     }
     return (
         <div>
@@ -104,7 +131,7 @@ const Registratation2 = () => {
                                 } />
                         </div>
                         {
-                            errors.name?.type === 'required' && <p className='text-sm text-red-500'>Name is required!</p>
+                            errors.photo?.type === 'required' && <p className='text-sm text-red-500'>Name is required!</p>
                         }
                     </label>
 
