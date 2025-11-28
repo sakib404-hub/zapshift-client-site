@@ -1,11 +1,11 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import useAuth from '../../Hooks/useAuth/useAuth';
 import { useLoaderData } from 'react-router';
 
 const SendAPercel = () => {
     const { user } = useAuth();
-    const { register, handleSubmit, watch } = useForm();
+    const { register, handleSubmit, control } = useForm();
 
     //loading the service center information
     const serviceCenter = useLoaderData();
@@ -14,13 +14,18 @@ const SendAPercel = () => {
     //finding only the unique districts through set and converting it to an array
     const regions = [...new Set(dublicateRegions)];
 
+    // const dublicateRegion = serviceCenter.map((center) => center.region);
+    // const regions = [...new Set(dublicateRegion)]
+    // console.log('the regions are, 'regions);
+
     //getting district by region
     const districtByRegion = (region) => {
         const regionDistricts = serviceCenter.filter((sc) => sc.region === region);
         const district = regionDistricts.map((region) => region.district);
         return district;
     }
-    const senderRegion = watch('senderRegion')
+    const senderRegion = useWatch({ control, name: 'senderRegion' })
+    const receiverRegion = useWatch({ control, name: 'receiverRegion' })
 
     const handleFormSubmission = (data) => {
         console.log('Form is Submitting!', data);
@@ -253,6 +258,48 @@ const SendAPercel = () => {
                                     id='receiverContact'
                                     className="input w-full"
                                     placeholder="Receiver Phone Number" />
+                                {/* receiver region  */}
+                                <fieldset className="fieldset">
+                                    <legend className="fieldset-legend">Receiver Region</legend>
+                                    <select
+                                        {
+                                        ...register('receiverRegion')
+                                        }
+                                        defaultValue="Pick a Region"
+                                        className="select w-full">
+                                        <option disabled={true}>Pick a Region</option>
+                                        {
+                                            regions.map((region, index) => {
+                                                return <option
+                                                    key={index}
+                                                    value={region}>
+                                                    {region}
+                                                </option>
+                                            })
+                                        }
+                                    </select>
+                                </fieldset>
+                                {/* receiver district  */}
+                                <fieldset className="fieldset">
+                                    <legend className="fieldset-legend">Receiver District</legend>
+                                    <select
+                                        {
+                                        ...register('receiverDistrict')
+                                        }
+                                        defaultValue="Pick a Region"
+                                        className="select w-full">
+                                        <option disabled={true}>Pick a District</option>
+                                        {
+                                            districtByRegion(receiverRegion).map((region, index) => {
+                                                return <option
+                                                    key={index}
+                                                    value={region}>
+                                                    {region}
+                                                </option>
+                                            })
+                                        }
+                                    </select>
+                                </fieldset>
                             </fieldset>
                         </div>
                     </div>
