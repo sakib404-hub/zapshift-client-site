@@ -3,16 +3,47 @@ import { useForm } from 'react-hook-form';
 import { FaEye, FaEyeSlash, FaLock, FaRegEnvelope } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import { Link } from 'react-router';
+import useAuth from '../../Hooks/useAuth/useAuth';
+import Swal from 'sweetalert2';
+import SocialLogin from '../SocialLogin/SocialLogin';
 
 const Login2 = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [lock, setLock] = useState(false);
+    const { signIn } = useAuth();
+    console.log(signIn);
+
+    // handling the eye of the password 
     const handleEye = () => {
         console.log('Button is Clicked!');
         setLock(!lock)
     }
     const handleLogin = (data) => {
-        console.log('button is clicked!', data.email, data.password);
+        signIn(data.email, data.password)
+            .then((res) => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: `Welcome back, ${res.user.displayName}!`,
+                    text: "You have successfully logged in.",
+                    showConfirmButton: false,
+                    timer: 2000,
+                    toast: true,
+                    timerProgressBar: true
+                });
+            })
+            .catch((error) => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Login Failed!",
+                    text: error.message,
+                    showConfirmButton: false,
+                    timer: 2000,
+                    toast: true,
+                    timerProgressBar: true
+                });
+            })
     }
     return (
         <div>
@@ -40,10 +71,11 @@ const Login2 = () => {
                                 placeholder="Email Address"
                                 className="input input-bordered w-full p-4"
                             />
-                            {
-                                errors.email?.type === 'required' && <p className='text-red-500 text-sm'>Email is required!</p>
-                            }
+
                         </div>
+                        {
+                            errors.email?.type === 'required' && <p className='text-red-500 text-sm'>Email is required!</p>
+                        }
                     </label>
                     {/* Password */}
                     <label
@@ -64,18 +96,18 @@ const Login2 = () => {
                                 className="input input-bordered w-full p-4 pr-12"
                                 required
                             />
-                            {
-                                errors.password?.type === 'required' && <p className='text-red-500 text-sm'>PassWord is required!</p>
-                            }
-                            {
-                                errors.password?.type == 'minLength' && <p className='text-red-500 text-sm'>PassWord Must be six Characters or Longer!</p>
-                            }
                             <div
                                 onClick={handleEye}
                                 className="absolute z-100 right-4 top-5 -translate-y-1/2 cursor-pointer text-gray-500">
                                 {lock ? <FaEye /> : <FaEyeSlash />}
                             </div>
                         </div>
+                        {
+                            errors.password?.type === 'required' && <p className='text-red-500 text-sm'>PassWord is required!</p>
+                        }
+                        {
+                            errors.password?.type == 'minLength' && <p className='text-red-500 text-sm'>PassWord Must be six Characters or Longer!</p>
+                        }
                     </label>
 
 
@@ -107,15 +139,10 @@ const Login2 = () => {
                         <span className="text-sm text-gray-500">Or</span>
                         <div className="flex-1 h-px bg-gray-300"></div>
                     </div>
-
-                    {/* Google Button */}
-                    <button
-                        className="w-full flex items-center justify-center gap-3bg-white shadow-sm border border-gray-200 rounded-lg py-3 hover:bg-gray-100 transition-all duration-200">
-                        <FcGoogle className="text-2xl" />
-                        <span className="font-medium text-gray-700">Register with Google</span>
-                    </button>
                 </div>
             </form>
+            {/* Google Button */}
+            <SocialLogin></SocialLogin>
         </div>
     );
 };

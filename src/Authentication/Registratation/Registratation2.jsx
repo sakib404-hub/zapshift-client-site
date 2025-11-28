@@ -3,16 +3,37 @@ import { useForm } from 'react-hook-form';
 import { FaEye, FaEyeSlash, FaLock, FaRegEnvelope, FaUser } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import { Link } from 'react-router';
+import useAuth from '../../Hooks/useAuth/useAuth';
+import Swal from 'sweetalert2';
+import SocialLogin from '../SocialLogin/SocialLogin';
 
 const Registratation2 = () => {
     const [showPass, setShowPass] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm()
+    const { createUser } = useAuth();
+
+
     //Handling the eye toogle
     const handleEyeToggle = () => {
         setShowPass(!showPass);
     };
     const handleRegister = (data) => {
-        console.log(data.name, data.email, data.password);
+        createUser(data.email, data.password)
+            .then((result) => {
+                console.log(result.user);
+            })
+            .error((error) => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Signup Failed!",
+                    text: error.message,
+                    showConfirmButton: false,
+                    timer: 2500,
+                    toast: true,
+                    timerProgressBar: true
+                });
+            })
     }
     return (
         <div>
@@ -41,7 +62,7 @@ const Registratation2 = () => {
                                 ...register('name', { required: true })
                                 }
                                 placeholder="Your Name"
-                                className="input input-bordered w-full p-4 pl-10"
+                                className="input input-bordered w-full p-4"
                                 required
                             />
                         </div>
@@ -62,7 +83,7 @@ const Registratation2 = () => {
                                 ...register('email', { required: true })
                                 }
                                 placeholder="Email Address"
-                                className="input input-bordered w-full p-4 pl-10"
+                                className="input input-bordered w-full p-4"
                                 required
                             />
 
@@ -88,7 +109,7 @@ const Registratation2 = () => {
                                     pattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/
                                 })
                                 }
-                                className="input input-bordered w-full p-4 pl-10 pr-12"
+                                className="input input-bordered w-full p-4"
                             />
                             <div
                                 onClick={handleEyeToggle}
@@ -128,16 +149,10 @@ const Registratation2 = () => {
                         <span className="text-sm text-gray-500">Or</span>
                         <div className="flex-1 h-px bg-gray-300"></div>
                     </div>
-
-                    {/* Google Button */}
-                    <button
-                        className="w-full flex items-center justify-center gap-3bg-white shadow-sm border border-gray-200 rounded-lg py-3 hover:bg-gray-100 transition-all duration-200">
-                        <FcGoogle className="text-2xl" />
-                        <span className="font-medium text-gray-700">Register with Google</span>
-                    </button>
-
                 </div>
             </form>
+            {/* Google Button */}
+            <SocialLogin></SocialLogin>
         </div>
     );
 };
