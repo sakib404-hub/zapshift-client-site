@@ -6,6 +6,8 @@ import Coverage from "../Pages/Coverage/Coverage";
 import Login from "../Authentication/Login/Login";
 import Registratation from "../Authentication/Registratation/Registratation";
 import AuthLayout from "../Layouts/AuthLayout/AuthLayout";
+import Login2 from "../Authentication/Login/login2";
+import Registratation2 from "../Authentication/Registratation/Registratation2";
 
 export const router = createBrowserRouter([
     {
@@ -30,11 +32,11 @@ export const router = createBrowserRouter([
         children: [
             {
                 path: '/login',
-                Component: Login
+                Component: Login2
             },
             {
                 path: '/register',
-                Component: Registratation
+                Component: Registratation2
             }
         ]
     }
