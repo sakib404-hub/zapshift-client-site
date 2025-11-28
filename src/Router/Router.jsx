@@ -5,6 +5,7 @@ import ErrorPage from "../Components/ErrorPage/ErrorPage";
 import Coverage from "../Pages/Coverage/Coverage";
 import Login from "../Authentication/Login/Login";
 import Registratation from "../Authentication/Registratation/Registratation";
+import AuthLayout from "../Layouts/AuthLayout/AuthLayout";
 
 export const router = createBrowserRouter([
     {
@@ -20,7 +21,13 @@ export const router = createBrowserRouter([
                 path: '/coverage',
                 Component: Coverage,
                 loader: () => fetch('/warehouses.json')
-            },
+            }
+        ]
+    },
+    {
+        path: '/',
+        Component: AuthLayout,
+        children: [
             {
                 path: '/login',
                 Component: Login

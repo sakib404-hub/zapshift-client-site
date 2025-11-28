@@ -1,24 +1,49 @@
 import React, { use, useState } from 'react';
-import authImg from '../../assets/authImage.png'
 import { FaRegEnvelope, FaLock, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { FaEye } from "react-icons/fa6";
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../Context/AuthContext/AuthContext';
 
 const Login = () => {
-    const { googleLogin } = use(AuthContext)
+    const { googleLogin, signIn } = use(AuthContext)
     const [lock, setLock] = useState(false);
+    const navigate = useNavigate();
     // console.log(googleLogin, loading);
 
+    // handling the SignIn Functionality 
     const handleFormSubmission = (event) => {
         event.preventDefault()
         const email = event.target.email.value;
         const password = event.target.password.value;
-        console.log('Button Clicked!', email, password)
-
-
+        signIn(email, password)
+            .then((res) => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: `Welcome back, ${res.user.displayName}!`,
+                    text: "You have successfully logged in.",
+                    showConfirmButton: false,
+                    timer: 2000,
+                    toast: true,
+                    timerProgressBar: true
+                });
+                event.target.reset();
+                navigate('/');
+            })
+            .catch((error) => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: "Login Failed!",
+                    text: error.message,
+                    showConfirmButton: false,
+                    timer: 2000,
+                    toast: true,
+                    timerProgressBar: true
+                });
+            })
     }
     const handleEye = () => {
         console.log('Button is Clicked!');
@@ -39,6 +64,7 @@ const Login = () => {
                     toast: true,
                     timerProgressBar: true
                 });
+                navigate('/');
             })
             .then((error) => {
                 Swal.fire({
@@ -54,8 +80,8 @@ const Login = () => {
             })
     }
     return (
-        <div className="my-10 md:my-0 flex flex-col-reverse md:flex-row">
-            <div className="h-auto flex bg-[#ffffff] items-center justify-center md:min-h-screen w-full md:w-1/2 p-5">
+        <div>
+            <div>
                 <form
                     onSubmit={handleFormSubmission}>
                     <div className="w-full max-w-md space-y-4">
@@ -144,9 +170,6 @@ const Login = () => {
                         </button>
                     </div>
                 </form>
-            </div>
-            <div className="flex items-center justify-center bg-[#fafdf0] h-auto md:min-h-screen w-full md:w-1/2 p-5">
-                <img src={authImg} alt="" />
             </div>
         </div>
     );

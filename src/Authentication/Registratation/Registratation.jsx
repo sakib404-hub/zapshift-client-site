@@ -2,15 +2,15 @@ import React, { use, useState } from "react";
 import { FaRegEnvelope, FaLock, FaEyeSlash, FaUser } from "react-icons/fa";
 import { FaEye } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router";
-import authImg from "../../assets/authImage.png";
+import { Link, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Context/AuthContext/AuthContext";
 import { updateProfile } from "firebase/auth";
 
 const Register = () => {
-    const { googleLogin, createUser } = use(AuthContext)
+    const { googleLogin, createUser, setUser } = use(AuthContext)
     const [showPass, setShowPass] = useState(false);
+    const navigate = useNavigate('/');
 
     const handleEyeToggle = () => {
         setShowPass(!showPass);
@@ -80,6 +80,8 @@ const Register = () => {
                             toast: true,
                             timerProgressBar: true
                         });
+                        setUser(res.user);
+                        navigate('/');
                         e.target.reset();
 
                     })
@@ -124,6 +126,7 @@ const Register = () => {
                     toast: true,
                     timerProgressBar: true
                 });
+                navigate('/')
             })
             .then((error) => {
                 Swal.fire({
@@ -139,9 +142,9 @@ const Register = () => {
             })
     }
     return (
-        <div className="my-10 md:my-0 flex flex-col-reverse md:flex-row">
+        <div>
             {/* Left Side Form */}
-            <div className="h-auto flex bg-white items-center justify-center md:min-h-screen w-full md:w-1/2 p-5">
+            <div >
                 <form onSubmit={handleRegister}>
                     <div className="w-full max-w-md space-y-4">
 
@@ -199,7 +202,7 @@ const Register = () => {
                                 />
                                 <div
                                     onClick={handleEyeToggle}
-                                    className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500">
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500 z-100">
                                     {showPass ? <FaEye /> : <FaEyeSlash />}
                                 </div>
                             </div>
@@ -237,11 +240,6 @@ const Register = () => {
 
                     </div>
                 </form>
-            </div>
-
-            {/* Right Side Image */}
-            <div className="flex items-center justify-center bg-[#fafdf0] h-auto md:min-h-screen w-full md:w-1/2 p-5">
-                <img src={authImg} alt="Register Illustration" />
             </div>
         </div>
     );
