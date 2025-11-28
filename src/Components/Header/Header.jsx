@@ -8,8 +8,6 @@ import { FaUser } from 'react-icons/fa';
 
 const Header = () => {
     const { user, logOut } = use(AuthContext);
-    console.log(user);
-    console.log(logOut);
     const navigate = useNavigate();
     const links = <div className='flex flex-col md:flex-row text-base font-bold space-x-5'>
         <NavLink>Services</NavLink>
@@ -101,7 +99,9 @@ const Header = () => {
                     </button>
                 }
                 <div>
-                    <Link className='btn btn-primary text-black ml-2 rounded-xl'>Be a Rider</Link>
+                    <Link
+                        to={'/rider'}
+                        className='btn btn-primary text-black ml-2 rounded-xl'>Be a Rider</Link>
                 </div>
                 {
                     !user && <div className='border p-2 rounded-full bg-[#1f1f1f]'>

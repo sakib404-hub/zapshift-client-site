@@ -2,10 +2,11 @@ import React from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import useAuth from '../../Hooks/useAuth/useAuth';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 const SocialLogin = () => {
     const { googleLogin } = useAuth();
+    const location = useLocation();
     const navigate = useNavigate();
 
     const handleGoogleLoginButtonClick = () => {
@@ -21,7 +22,7 @@ const SocialLogin = () => {
                     toast: true,
                     timerProgressBar: true
                 });
-                navigate('/');
+                navigate(location.pathname || '/');
             })
             .then((error) => {
                 Swal.fire({

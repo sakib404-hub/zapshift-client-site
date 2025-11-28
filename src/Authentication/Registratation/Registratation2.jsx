@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaEye, FaEyeSlash, FaLock, FaRegEnvelope, FaUser } from 'react-icons/fa';
-import { FcGoogle } from 'react-icons/fc';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import useAuth from '../../Hooks/useAuth/useAuth';
 import Swal from 'sweetalert2';
 import SocialLogin from '../SocialLogin/SocialLogin';
@@ -10,9 +9,10 @@ import axios from 'axios';
 
 const Registratation2 = () => {
     const [showPass, setShowPass] = useState(false);
-    const { register, handleSubmit, formState: { errors } } = useForm()
+    const { register, handleSubmit, reset, formState: { errors } } = useForm()
     const { createUser, updateInformation, setUser } = useAuth();
-
+    const location = useLocation();
+    console.log(location);
 
     //Handling the eye toogle
     const handleEyeToggle = () => {
@@ -52,7 +52,7 @@ const Registratation2 = () => {
                             timerProgressBar: true
                         });
                         setUser(result.user)
-
+                        reset();
                     })
                     .catch((error) => {
                         Swal.fire({
@@ -201,7 +201,9 @@ const Registratation2 = () => {
                     {/* Already have account */}
                     <p className="text-center text-sm text-gray-600">
                         Already have an account?
-                        <Link to="/login" className="text-green-600 ml-1 font-medium">
+                        <Link
+                            state={location.state}
+                            to="/login" className="text-green-600 ml-1 font-medium">
                             Login
                         </Link>
                     </p>

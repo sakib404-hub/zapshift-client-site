@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaEye, FaEyeSlash, FaLock, FaRegEnvelope } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
-import { Link } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import useAuth from '../../Hooks/useAuth/useAuth';
 import Swal from 'sweetalert2';
 import SocialLogin from '../SocialLogin/SocialLogin';
@@ -11,7 +11,9 @@ const Login2 = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [lock, setLock] = useState(false);
     const { signIn } = useAuth();
-    console.log(signIn);
+    const location = useLocation();
+    const navigate = useNavigate();
+    console.log(location);
 
     // handling the eye of the password 
     const handleEye = () => {
@@ -31,6 +33,7 @@ const Login2 = () => {
                     toast: true,
                     timerProgressBar: true
                 });
+                navigate(location.pathname || '/')
             })
             .catch((error) => {
                 Swal.fire({
@@ -129,6 +132,7 @@ const Login2 = () => {
                     <p className="text-center text-sm text-gray-600">
                         Don’t have any account?
                         <Link
+                            state={location.state}
                             to={'/register'}
                             className="text-green-600 font-medium ml-1">Register</Link>
                     </p>
