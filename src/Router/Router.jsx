@@ -12,6 +12,7 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import Rider from "../Pages/Rider/Rider";
 import SendAPercel from "../Pages/SendAPercel/SendAPercel";
 import AboutUs from "../Pages/AboutUs/AboutUs";
+import Loader from "../Components/Loader/Loader";
 
 export const router = createBrowserRouter([
     {
@@ -26,7 +27,8 @@ export const router = createBrowserRouter([
             {
                 path: '/coverage',
                 Component: Coverage,
-                loader: () => fetch('/warehouses.json')
+                loader: () => fetch('/warehouses.json'),
+                hydrateFallbackElement: <Loader></Loader>
             },
             {
                 path: '/rider',
@@ -38,7 +40,9 @@ export const router = createBrowserRouter([
                 path: '/send-percel',
                 element: <PrivateRoute>
                     <SendAPercel></SendAPercel>
-                </PrivateRoute>
+                </PrivateRoute>,
+                loader: () => fetch('/warehouses.json'),
+                hydrateFallbackElement: <Loader></Loader>
             },
             {
                 path: '/aboutUs',
