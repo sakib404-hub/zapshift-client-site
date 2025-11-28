@@ -19,7 +19,9 @@ const Header = () => {
         <NavLink
             to={'/send-percel'}
             className={'nav-link px-6 py-2 rounded-2xl'}>Send Percel</NavLink>
-        <NavLink className='px-6 py-2 rounded-2xl'>About Us</NavLink>
+        <NavLink
+            to={'/aboutUs'}
+            className='nav-link px-6 py-2 rounded-2xl'>About Us</NavLink>
     </div>
     const handlelogin = () => {
         navigate('/login');
