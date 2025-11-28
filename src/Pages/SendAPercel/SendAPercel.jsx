@@ -5,7 +5,7 @@ import { useLoaderData } from 'react-router';
 
 const SendAPercel = () => {
     const { user } = useAuth();
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, watch } = useForm();
 
     //loading the service center information
     const serviceCenter = useLoaderData();
@@ -14,6 +14,13 @@ const SendAPercel = () => {
     //finding only the unique districts through set and converting it to an array
     const regions = [...new Set(dublicateRegions)];
 
+    //getting district by region
+    const districtByRegion = (region) => {
+        const regionDistricts = serviceCenter.filter((sc) => sc.region === region);
+        const district = regionDistricts.map((region) => region.district);
+        return district;
+    }
+    const senderRegion = watch('senderRegion')
 
     const handleFormSubmission = (data) => {
         console.log('Form is Submitting!', data);
@@ -155,7 +162,11 @@ const SendAPercel = () => {
                                 {/* sender location */}
                                 <fieldset className="fieldset">
                                     <legend className="fieldset-legend">Sender Region</legend>
-                                    <select defaultValue="Pick a browser" className="select w-full">
+                                    <select
+                                        {
+                                        ...register('senderRegion')
+                                        }
+                                        defaultValue="Pick a browser" className="select w-full">
                                         <option disabled={true}>Pick a Region</option>
                                         {
                                             regions.map((region, index) => {
@@ -165,7 +176,24 @@ const SendAPercel = () => {
                                             })
                                         }
                                     </select>
-                                    <span className="label">Optional</span>
+                                </fieldset>
+                                {/* sender districts  */}
+                                <fieldset className="fieldset">
+                                    <legend className="fieldset-legend">Sender District</legend>
+                                    <select
+                                        {
+                                        ...register('senderDistrict')
+                                        }
+                                        defaultValue="Pick a browser" className="select w-full">
+                                        <option disabled={true}>Pick a District</option>
+                                        {
+                                            districtByRegion(senderRegion).map((region, index) => {
+                                                return <option
+                                                    key={index}
+                                                    value={region}>{region}</option>
+                                            })
+                                        }
+                                    </select>
                                 </fieldset>
                             </fieldset>
                         </div>
