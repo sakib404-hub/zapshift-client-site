@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import useAuth from '../../Hooks/useAuth/useAuth';
 import { useLoaderData } from 'react-router';
+import Swal from 'sweetalert2';
 
 const SendAPercel = () => {
     const { user } = useAuth();
@@ -44,8 +45,39 @@ const SendAPercel = () => {
                 const remainingWeight = weight - 3;
                 cost = isSameDistrict ? (110 + remainingWeight * 40) : (150 + 40 + (40 * remainingWeight))
             }
-        }
-        console.log(cost);
+            Swal.fire({
+                title: "Confirm Parcel?",
+                html: `<p class="text-lg">The delivery cost will be 
+                             <b class="text-blue-600">${cost} ৳</b>
+                    </p>
+                    <p class="text-sm text-gray-500 mt-1">Are you sure you want to send this parcel?
+                    </p> `,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#10b981",
+                cancelButtonColor: "#ef4444",
+                confirmButtonText: "Yes, send it!",
+                cancelButtonText: "Cancel"
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Parcel Sent!",
+                        text: `Your parcel has been confirmed. Cost: ${cost}৳`,
+                        icon: "success",
+                        confirmButtonColor: "#10b981",
+                    });
+                }
+                else {
+                    Swal.fire({
+                        title: "Cancelled",
+                        text: "Parcel sending cancelled.",
+                        icon: "info",
+                        confirmButtonColor: "#3b82f6",
+                    });
+                }
+            });
+        };
     }
     return (
         <div className='bg-[#ddf2ff] p-4 md:p-10'>
@@ -217,6 +249,17 @@ const SendAPercel = () => {
                                         }
                                     </select>
                                 </fieldset>
+                                <label htmlFor='pickupInstruction' className="label">
+                                    <span className="label-text font-semibold">Pickup Instruction</span>
+                                </label>
+
+                                <textarea
+                                    {...register('pickupInstruction')}
+                                    name="pickupInstruction"
+                                    id="pickupInstruction"
+                                    className="textarea textarea-bordered w-full h-32 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    placeholder="Pickup Instruction"
+                                ></textarea>
                             </fieldset>
                         </div>
                         {/* receiver information  */}
@@ -317,6 +360,18 @@ const SendAPercel = () => {
                                         }
                                     </select>
                                 </fieldset>
+                                <label htmlFor='deliveryInstruction' className="label">
+                                    <span className="label-text font-semibold">Delivery Instruction</span>
+                                </label>
+
+                                <textarea
+                                    {...register('deliveryInstruction')}
+                                    name="deliveryInstruction"
+                                    id="deliveryInstruction"
+                                    className="textarea textarea-bordered w-full h-32 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    placeholder="Delivery Instruction"
+                                ></textarea>
+
                             </fieldset>
                         </div>
                     </div>
