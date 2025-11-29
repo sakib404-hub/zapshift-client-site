@@ -3,10 +3,12 @@ import { useForm, useWatch } from 'react-hook-form';
 import useAuth from '../../Hooks/useAuth/useAuth';
 import { useLoaderData } from 'react-router';
 import Swal from 'sweetalert2';
+import useAxios from '../../Hooks/useAxios/useAxios';
 
 const SendAPercel = () => {
+    const axiosSecure = useAxios();
     const { user } = useAuth();
-    const { register, handleSubmit, control } = useForm();
+    const { register, handleSubmit, control, reset } = useForm();
 
     //loading the service center information
     const serviceCenter = useLoaderData();
@@ -59,14 +61,22 @@ const SendAPercel = () => {
                 confirmButtonText: "Yes, send it!",
                 cancelButtonText: "Cancel"
             }).then((result) => {
-
+                //proceed to the payment so that save the information to the database
                 if (result.isConfirmed) {
-                    Swal.fire({
-                        title: "Parcel Sent!",
-                        text: `Your parcel has been confirmed. Cost: ${cost}৳`,
-                        icon: "success",
-                        confirmButtonColor: "#10b981",
-                    });
+                    axiosSecure.post('/percels', data)
+                        .then((res) => {
+                            Swal.fire({
+                                title: "Parcel Sent!",
+                                text: `Your parcel has been confirmed. Cost: ${cost}৳`,
+                                icon: "success",
+                                confirmButtonColor: "#10b981",
+                            });
+                            reset()
+                            console.log('After Saving the Information, ', res.data)
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        })
                 }
                 else {
                     Swal.fire({
