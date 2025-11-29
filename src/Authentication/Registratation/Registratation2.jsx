@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaEye, FaEyeSlash, FaLock, FaRegEnvelope, FaUser } from 'react-icons/fa';
-import { Link, useLocation } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import useAuth from '../../Hooks/useAuth/useAuth';
 import Swal from 'sweetalert2';
 import SocialLogin from '../SocialLogin/SocialLogin';
@@ -12,7 +12,7 @@ const Registratation2 = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm()
     const { createUser, updateInformation, setUser } = useAuth();
     const location = useLocation();
-    console.log(location);
+    const navigate = useNavigate();
 
     //Handling the eye toogle
     const handleEyeToggle = () => {
@@ -53,6 +53,7 @@ const Registratation2 = () => {
                         });
                         setUser(result.user)
                         reset();
+                        navigate(location.state || '/');
                     })
                     .catch((error) => {
                         Swal.fire({

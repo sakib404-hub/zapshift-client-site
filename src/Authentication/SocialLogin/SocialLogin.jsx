@@ -22,9 +22,9 @@ const SocialLogin = () => {
                     toast: true,
                     timerProgressBar: true
                 });
-                navigate(location.pathname || '/');
+                navigate(location.state || '/');
             })
-            .then((error) => {
+            .catch((error) => {
                 Swal.fire({
                     position: "center",
                     icon: "error",

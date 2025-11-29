@@ -33,7 +33,7 @@ const Login2 = () => {
                     toast: true,
                     timerProgressBar: true
                 });
-                navigate(location.pathname || '/')
+                navigate(location.state || '/')
             })
             .catch((error) => {
                 Swal.fire({

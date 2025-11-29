@@ -6,6 +6,7 @@ import Loader from '../Components/Loader/Loader';
 const PrivateRoute = ({ children }) => {
     const { user, loading } = useAuth();
     const location = useLocation();
+    console.log(location);
 
     //checking if the loading is true
     if (loading) {
@@ -13,7 +14,7 @@ const PrivateRoute = ({ children }) => {
     }
     //checking if the user does not exist
     if (!user) {
-        return <Navigate state={location.state} to={'/login'}></Navigate>
+        return <Navigate state={location.pathname} to={'/login'}></Navigate>
     }
     //returning the path you wanted to go
     return children;

@@ -28,7 +28,24 @@ const SendAPercel = () => {
     const receiverRegion = useWatch({ control, name: 'receiverRegion' })
 
     const handleFormSubmission = (data) => {
-        console.log('Form is Submitting!', data);
+        // send percel cost calculation 
+        let cost;
+        const isDocument = data.parcelType === 'document';
+        const isSameDistrict = data.senderDistrict === data.receiverDistrict;
+        if (isDocument) {
+            cost = isSameDistrict ? 60 : 80;
+        }
+        else {
+            const weight = parseFloat(data.percelWeight)
+            if (weight <= 3) {
+                cost = isSameDistrict ? 110 : 150;
+            }
+            else {
+                const remainingWeight = weight - 3;
+                cost = isSameDistrict ? (110 + remainingWeight * 40) : (150 + 40 + (40 * remainingWeight))
+            }
+        }
+        console.log(cost);
     }
     return (
         <div className='bg-[#ddf2ff] p-4 md:p-10'>
