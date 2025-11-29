@@ -22,6 +22,11 @@ const Header = () => {
         <NavLink
             to={'/aboutUs'}
             className='nav-link px-6 py-2 rounded-2xl'>About Us</NavLink>
+        {
+            user && <NavLink
+                to={'/dashboard'}
+                className='nav-link px-6 py-2 rounded-2xl'>DashBoard</NavLink>
+        }
     </div>
     const handlelogin = () => {
         navigate('/login');

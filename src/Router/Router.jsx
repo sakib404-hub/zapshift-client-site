@@ -13,6 +13,7 @@ import Rider from "../Pages/Rider/Rider";
 import SendAPercel from "../Pages/SendAPercel/SendAPercel";
 import AboutUs from "../Pages/AboutUs/AboutUs";
 import Loader from "../Components/Loader/Loader";
+import DashBoard from "../Pages/DashBoard/DashBoard";
 
 export const router = createBrowserRouter([
     {
@@ -63,5 +64,11 @@ export const router = createBrowserRouter([
                 Component: Registratation2
             }
         ]
+    },
+    {
+        path: '/dashboard',
+        element: <PrivateRoute>
+            <DashBoard></DashBoard>
+        </PrivateRoute>
     }
 ])
