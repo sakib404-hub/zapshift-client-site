@@ -2,10 +2,14 @@ import React from 'react';
 import Logo from '../../Components/Logo/Logo';
 import { IoIosHome } from "react-icons/io";
 import { IoMdSettings } from "react-icons/io";
-import { Outlet } from 'react-router';
+import { Outlet, useNavigate } from 'react-router';
+import { SiMyget } from "react-icons/si";
+
+import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb";
 
 
 const DashBoard = () => {
+    const navigate = useNavigate();
     return (
         <div className="drawer lg:drawer-open">
             <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -14,7 +18,7 @@ const DashBoard = () => {
                 <nav className="navbar w-full bg-base-300">
                     <label htmlFor="my-drawer-4" aria-label="open sidebar" className="btn btn-square btn-ghost">
                         {/* Sidebar toggle icon */}
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor" className="my-1.5 inline-block size-4"><path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path><path d="M9 4v16"></path><path d="M14 10l2 2l-2 2"></path></svg>
+                        <TbLayoutSidebarLeftCollapseFilled className="my-1.5 inline-block size-6" />
                     </label>
                     <div className="px-4">
                         <Logo></Logo>
@@ -33,7 +37,9 @@ const DashBoard = () => {
                     <ul className="menu w-full grow">
                         {/* List item */}
                         <li>
-                            <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Homepage">
+                            <button
+                                onClick={() => navigate('/')}
+                                className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Homepage">
                                 {/* Home icon */}
                                 <IoIosHome
                                     className="my-1.5 inline-block size-4" />
@@ -42,6 +48,15 @@ const DashBoard = () => {
                         </li>
 
                         {/* List item */}
+                        <li>
+                            <button
+                                onClick={() => navigate('/dashboard')}
+                                className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Percels">
+                                {/* Settings icon */}
+                                <SiMyget className="my-1.5 inline-block size-4" />
+                                <span className="is-drawer-close:hidden">My Percels</span>
+                            </button>
+                        </li>
                         <li>
                             <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Settings">
                                 {/* Settings icon */}
@@ -52,7 +67,7 @@ const DashBoard = () => {
                     </ul>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

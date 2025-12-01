@@ -12,20 +12,20 @@ const Header = () => {
     const links = <div className='flex flex-col md:flex-row text-base font-bold space-x-5'>
         <NavLink
             to={'/'}
-            className={'nav-link px-6 py-2 rounded-2xl'}>Home</NavLink>
+            className={'nav-link px-3 py-2 rounded-2xl'}>Home</NavLink>
         <NavLink
             to={'/coverage'}
-            className={'nav-link px-6 py-2 rounded-2xl'}>Coverage</NavLink>
+            className={'nav-link px-3 py-2 rounded-2xl'}>Coverage</NavLink>
         <NavLink
             to={'/send-percel'}
-            className={'nav-link px-6 py-2 rounded-2xl'}>Send Percel</NavLink>
+            className={'nav-link px-3 py-2 rounded-2xl'}>Send Percel</NavLink>
         <NavLink
             to={'/aboutUs'}
-            className='nav-link px-6 py-2 rounded-2xl'>About Us</NavLink>
+            className='nav-link px-3 py-2 rounded-2xl'>About Us</NavLink>
         {
             user && <NavLink
-                to={'/dashboard/my-percels'}
-                className='nav-link px-6 py-2 rounded-2xl'>DashBoard</NavLink>
+                to={'/dashboard'}
+                className='nav-link px-3 py-2 rounded-2xl'>DashBoard</NavLink>
         }
     </div>
     const handlelogin = () => {

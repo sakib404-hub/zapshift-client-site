@@ -71,7 +71,7 @@ export const router = createBrowserRouter([
         </PrivateRoute>,
         children: [
             {
-                path: 'my-percels',
+                index: true,
                 Component: MyPercels
             }
         ]
