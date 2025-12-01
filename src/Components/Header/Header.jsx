@@ -24,7 +24,7 @@ const Header = () => {
             className='nav-link px-6 py-2 rounded-2xl'>About Us</NavLink>
         {
             user && <NavLink
-                to={'/dashboard'}
+                to={'/dashboard/my-percels'}
                 className='nav-link px-6 py-2 rounded-2xl'>DashBoard</NavLink>
         }
     </div>

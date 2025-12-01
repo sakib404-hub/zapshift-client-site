@@ -3,8 +3,6 @@ import Layout from "../Layouts/Layout/Layout";
 import Home from "../Layouts/Home/Home";
 import ErrorPage from "../Components/ErrorPage/ErrorPage";
 import Coverage from "../Pages/Coverage/Coverage";
-import Login from "../Authentication/Login/Login";
-import Registratation from "../Authentication/Registratation/Registratation";
 import AuthLayout from "../Layouts/AuthLayout/AuthLayout";
 import Login2 from "../Authentication/Login/login2";
 import Registratation2 from "../Authentication/Registratation/Registratation2";
@@ -14,6 +12,7 @@ import SendAPercel from "../Pages/SendAPercel/SendAPercel";
 import AboutUs from "../Pages/AboutUs/AboutUs";
 import Loader from "../Components/Loader/Loader";
 import DashBoard from "../Pages/DashBoard/DashBoard";
+import MyPercels from "../Pages/DashBoard/MyPercels/MyPercels";
 
 export const router = createBrowserRouter([
     {
@@ -69,6 +68,12 @@ export const router = createBrowserRouter([
         path: '/dashboard',
         element: <PrivateRoute>
             <DashBoard></DashBoard>
-        </PrivateRoute>
+        </PrivateRoute>,
+        children: [
+            {
+                path: 'my-percels',
+                Component: MyPercels
+            }
+        ]
     }
 ])

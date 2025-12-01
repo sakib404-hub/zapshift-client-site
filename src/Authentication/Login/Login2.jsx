@@ -13,7 +13,6 @@ const Login2 = () => {
     const { signIn } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
-    console.log(location);
 
     // handling the eye of the password 
     const handleEye = () => {
