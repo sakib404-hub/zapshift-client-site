@@ -14,6 +14,8 @@ import Loader from "../Components/Loader/Loader";
 import DashBoard from "../Pages/DashBoard/DashBoard";
 import MyPercels from "../Pages/DashBoard/MyPercels/MyPercels";
 import Payment from "../Pages/DashBoard/Payment/Payment";
+import PaymentSuccess from "../Pages/DashBoard/Payment/PaymentSucess";
+import PaymentCancelled from "../Pages/DashBoard/Payment/PaymentCancelled";
 
 export const router = createBrowserRouter([
     {
@@ -78,6 +80,14 @@ export const router = createBrowserRouter([
             {
                 path: 'payment/:parcelId',
                 Component: Payment
+            },
+            {
+                path: 'payment-success',
+                Component: PaymentSuccess
+            },
+            {
+                path: 'payment-cancel',
+                Component: PaymentCancelled
             }
         ]
     }
