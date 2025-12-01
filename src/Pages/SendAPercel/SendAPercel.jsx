@@ -47,47 +47,48 @@ const SendAPercel = () => {
                 const remainingWeight = weight - 3;
                 cost = isSameDistrict ? (110 + remainingWeight * 40) : (150 + 40 + (40 * remainingWeight))
             }
-            Swal.fire({
-                title: "Confirm Parcel?",
-                html: `<p class="text-lg">The delivery cost will be 
+        }
+        data.cost = cost;
+        Swal.fire({
+            title: "Confirm Parcel?",
+            html: `<p class="text-lg">The delivery cost will be 
                              <b class="text-blue-600">${cost} ৳</b>
                     </p>
                     <p class="text-sm text-gray-500 mt-1">Are you sure you want to send this parcel?
                     </p> `,
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#10b981",
-                cancelButtonColor: "#ef4444",
-                confirmButtonText: "Yes, send it!",
-                cancelButtonText: "Cancel"
-            }).then((result) => {
-                //proceed to the payment so that save the information to the database
-                if (result.isConfirmed) {
-                    axiosSecure.post('/percels', data)
-                        .then((res) => {
-                            Swal.fire({
-                                title: "Parcel Sent!",
-                                text: `Your parcel has been confirmed. Cost: ${cost}৳`,
-                                icon: "success",
-                                confirmButtonColor: "#10b981",
-                            });
-                            reset()
-                            console.log('After Saving the Information, ', res.data)
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        })
-                }
-                else {
-                    Swal.fire({
-                        title: "Cancelled",
-                        text: "Parcel sending cancelled.",
-                        icon: "info",
-                        confirmButtonColor: "#3b82f6",
-                    });
-                }
-            });
-        };
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#10b981",
+            cancelButtonColor: "#ef4444",
+            confirmButtonText: "Yes, send it!",
+            cancelButtonText: "Cancel"
+        }).then((result) => {
+            //proceed to the payment so that save the information to the database
+            if (result.isConfirmed) {
+                axiosSecure.post('/percels', data)
+                    .then((res) => {
+                        Swal.fire({
+                            title: "Parcel Sent!",
+                            text: `Your parcel has been confirmed. Cost: ${cost}৳`,
+                            icon: "success",
+                            confirmButtonColor: "#10b981",
+                        });
+                        reset()
+                        console.log('After Saving the Information, ', res.data)
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+            }
+            else {
+                Swal.fire({
+                    title: "Cancelled",
+                    text: "Parcel sending cancelled.",
+                    icon: "info",
+                    confirmButtonColor: "#3b82f6",
+                });
+            }
+        });
     }
     return (
         <div className='bg-[#ddf2ff] p-4 md:p-10'>
@@ -208,6 +209,7 @@ const SendAPercel = () => {
                                     }
                                     name='senderEmail'
                                     id='senderEmail'
+                                    defaultValue={user?.email}
                                     className="input w-full"
                                     placeholder="Sender Email" />
                                 {/* sender phone Number  */}
@@ -231,12 +233,13 @@ const SendAPercel = () => {
                                         ...register('senderRegion')
                                         }
                                         defaultValue="Pick a browser" className="select w-full">
-                                        <option disabled={true}>Pick a Region</option>
+                                        <option >Pick a Region</option>
                                         {
                                             regions.map((region, index) => {
                                                 return <option
                                                     key={index}
-                                                    value={region}>{region}</option>
+                                                    value={region}>{region}
+                                                </option>
                                             })
                                         }
                                     </select>
