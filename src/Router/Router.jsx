@@ -13,6 +13,7 @@ import AboutUs from "../Pages/AboutUs/AboutUs";
 import Loader from "../Components/Loader/Loader";
 import DashBoard from "../Pages/DashBoard/DashBoard";
 import MyPercels from "../Pages/DashBoard/MyPercels/MyPercels";
+import Payment from "../Pages/DashBoard/Payment/Payment";
 
 export const router = createBrowserRouter([
     {
@@ -73,6 +74,10 @@ export const router = createBrowserRouter([
             {
                 index: true,
                 Component: MyPercels
+            },
+            {
+                path: 'payment/:parcelId',
+                Component: Payment
             }
         ]
     }

@@ -7,6 +7,7 @@ import { RiDeleteBinFill } from "react-icons/ri";
 import { FaEdit } from "react-icons/fa";
 import { MdViewWeek } from "react-icons/md";
 import Swal from 'sweetalert2';
+import { Link } from 'react-router';
 
 const MyPercels = () => {
     const { user } = useAuth();
@@ -106,7 +107,7 @@ const MyPercels = () => {
                             <tr className="text-base font-semibold">
                                 <th>SL</th>
                                 <th>Parcel Name</th>
-                                <th>Type</th>
+                                <th>Payment Status</th>
                                 <th>Weight (kg)</th>
                                 <th>Sender</th>
                                 <th>Receiver</th>
@@ -125,7 +126,15 @@ const MyPercels = () => {
                                     <td className="font-semibold">{item.percelName}</td>
 
                                     {/* Parcel Type */}
-                                    <td className="capitalize">{item.parcelType}</td>
+                                    <td className="capitalize">
+                                        {
+                                            item.paymentStatus === 'paid' ? <p className='text-green-500'>Paid</p> : <Link
+                                                to={`/dashboard/payment/${item._id}`}
+                                                className="px-4 bg-primary py-2 rounded-xl font-semibold hover:scale-110 transition transform duration-200 inline-block">
+                                                Pay
+                                            </Link>
+                                        }
+                                    </td>
 
                                     {/* Weight */}
                                     <td>{item.percelWeight} kg</td>

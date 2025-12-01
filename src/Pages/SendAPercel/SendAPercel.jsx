@@ -49,6 +49,7 @@ const SendAPercel = () => {
             }
         }
         data.cost = cost;
+        data.paymentStatus = 'unpaid';
         Swal.fire({
             title: "Confirm Parcel?",
             html: `<p class="text-lg">The delivery cost will be 
