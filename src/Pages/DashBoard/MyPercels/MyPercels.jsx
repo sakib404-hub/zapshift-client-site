@@ -3,6 +3,10 @@ import useAuth from '../../../Hooks/useAuth/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import useAxios from '../../../Hooks/useAxios/useAxios';
 import Loader from '../../../Components/Loader/Loader';
+import { RiDeleteBinFill } from "react-icons/ri";
+import { FaEdit } from "react-icons/fa";
+import { MdViewWeek } from "react-icons/md";
+import Swal from 'sweetalert2';
 
 const MyPercels = () => {
     const { user } = useAuth();
@@ -19,15 +23,67 @@ const MyPercels = () => {
     //         }
     //     }
     // })
-    const { data: percels = [], isLoading } = useQuery({
+    const { data: percels = [], isLoading, refetch } = useQuery({
         queryKey: ['myPercels', user?.email],
         queryFn: async () => {
             const res = await axiosSecure(`/myPercels?email=${user?.email}`);
             return res.data;
         }
     })
+    const handleDelete = (id) => {
+        Swal.fire({
+            title: "Delete Parcel?",
+            text: "This action cannot be undone. Do you really want to delete it?",
+            icon: "warning",
+            iconColor: "#f87171",
+            showCancelButton: true,
+            confirmButtonText: "Yes, Delete",
+            cancelButtonText: "Cancel",
+            focusCancel: true,
+            confirmButtonColor: "#dc2626",
+            cancelButtonColor: "#6b7280",
+            buttonsStyling: true,
+            customClass: {
+                popup: "rounded-xl",
+                confirmButton: "px-5 py-2 text-white rounded-lg",
+                cancelButton: "px-5 py-2 bg-gray-200 text-gray-700 rounded-lg"
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.delete(`/percels/${id}`)
+                    .then((res) => {
+                        if (res.data.deletedCount) {
+                            refetch();
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "The parcel has been removed successfully.",
+                                icon: "success",
+                                iconColor: "#22c55e",
+                                confirmButtonColor: "#22c55e",
+                                customClass: {
+                                    popup: "rounded-xl"
+                                }
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        Swal.fire({
+                            title: "Error!",
+                            text: error.message,
+                            icon: "error",
+                            iconColor: "#ef4444",
+                            confirmButtonText: "Okay",
+                            confirmButtonColor: "#ef4444",
+                            customClass: {
+                                popup: "rounded-xl",
+                                confirmButton: "px-5 py-2 text-white rounded-lg"
+                            }
+                        });
+                    })
+            }
+        });
+    }
 
-    console.log(percels)
     if (isLoading) {
         return <Loader></Loader>
     }
@@ -94,8 +150,17 @@ const MyPercels = () => {
                                     <td>{item.receiverDistrict}</td>
                                     {/* Actions */}
                                     <td>
-                                        <button className="btn btn-sm btn-primary text-black mr-2">View</button>
-                                        <button className="btn btn-sm btn-error">Delete</button>
+                                        <button className="btn btn-sm hover:bg-primary hover:text-black">
+                                            <MdViewWeek className='size-4' />
+                                        </button>
+                                        <button className="btn btn-sm r hover:bg-primary hover:text-black mx-2">
+                                            <FaEdit className='size-4' />
+                                        </button>
+                                        <button
+                                            onClick={() => handleDelete(item._id)}
+                                            className="btn btn-sm hover:bg-primary hover:text-black">
+                                            <RiDeleteBinFill className='size-4' />
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
