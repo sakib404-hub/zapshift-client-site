@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useSearchParams } from "react-router";
 import { CheckCircle } from "lucide-react";
+import useAxios from '../../../Hooks/useAxios/useAxios'
 
 const PaymentSuccess = () => {
+    //getting the seesion id
     const [searchParams] = useSearchParams();
     const sessionId = searchParams.get('session_id')
     console.log(sessionId);
 
+    //calling axiosSecure 
+    const axiosSecure = useAxios();
 
+    // sending it the backend if needed 
+    useEffect(() => {
+        if (sessionId) {
+            axiosSecure.patch(`/payment-success?session_id=${sessionId}`).then((res) =>
+                console.log(res.data))
+        }
+    }, [axiosSecure, sessionId])
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-green-50 to-green-100 p-6">
