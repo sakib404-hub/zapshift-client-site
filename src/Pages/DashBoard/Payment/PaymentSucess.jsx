@@ -1,8 +1,14 @@
 import React from "react";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import { CheckCircle } from "lucide-react";
 
 const PaymentSuccess = () => {
+    const [searchParams] = useSearchParams();
+    const sessionId = searchParams.get('session_id')
+    console.log(sessionId);
+
+
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-green-50 to-green-100 p-6">
             <div className="bg-white shadow-2xl rounded-2xl p-10 max-w-md w-full text-center transform animate-fadeIn">
