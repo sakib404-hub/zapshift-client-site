@@ -7,7 +7,7 @@ const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     // handling googleLogin 
     const googleLogin = () => {
@@ -38,8 +38,8 @@ const AuthProvider = ({ children }) => {
     // setting up the observer 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setLoading(false)
             setUser(currentUser);
+            setLoading(false)
         })
         return () => {
             unsubscribe()

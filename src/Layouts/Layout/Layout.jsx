@@ -9,7 +9,7 @@ const Layout = () => {
             <header>
                 <Header></Header>
             </header>
-            <main className='border'>
+            <main className=''>
                 <Outlet></Outlet>
             </main>
             <footer>

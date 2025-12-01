@@ -24,7 +24,7 @@ const PaymentCancelled = () => {
                         Go Back
                     </Link>
                     <Link
-                        to="/dashboard/payment"
+                        to="/dashboard"
                         className="px-5 py-2 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 transition"
                     >
                         Try Again

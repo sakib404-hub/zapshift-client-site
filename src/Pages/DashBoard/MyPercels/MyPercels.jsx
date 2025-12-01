@@ -7,7 +7,6 @@ import { RiDeleteBinFill } from "react-icons/ri";
 import { FaEdit } from "react-icons/fa";
 import { MdViewWeek } from "react-icons/md";
 import Swal from 'sweetalert2';
-import { Link } from 'react-router';
 
 const MyPercels = () => {
     const { user } = useAuth();
@@ -31,6 +30,26 @@ const MyPercels = () => {
             return res.data;
         }
     })
+
+    //handling the payment
+    const handlepayment = async (parcel) => {
+
+        const paymentInfo = {
+            percelId: parcel._id,
+            cost: parcel.cost,
+            percelName: parcel.percelName,
+            senderEmail: parcel.senderEmail
+        }
+        try {
+            const res = await axiosSecure.post('payment-checkout-sesssion', paymentInfo)
+            // console.log(res.data.url);
+            // window.location.href = res.data.url;
+            window.location.assign(res.data.url);
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+
     const handleDelete = (id) => {
         Swal.fire({
             title: "Delete Parcel?",
@@ -128,11 +147,11 @@ const MyPercels = () => {
                                     {/* Parcel Type */}
                                     <td className="capitalize">
                                         {
-                                            item.paymentStatus === 'paid' ? <p className='text-green-500'>Paid</p> : <Link
-                                                to={`/dashboard/payment/${item._id}`}
+                                            item.paymentStatus === 'paid' ? <p className='text-green-500'>Paid</p> : <button
+                                                onClick={() => handlepayment(item)}
                                                 className="px-4 bg-primary py-2 rounded-xl font-semibold hover:scale-110 transition transform duration-200 inline-block">
-                                                Pay
-                                            </Link>
+                                                Proceed to Payment
+                                            </button>
                                         }
                                     </td>
 

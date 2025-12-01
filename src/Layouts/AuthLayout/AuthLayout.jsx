@@ -11,7 +11,7 @@ const AuthLayout = () => {
                 <Logo></Logo>
             </div>
             <div className='my-10 md:my-0 flex flex-col-reverse md:flex-row '>
-                <div className='h-auto border flex bg-[#ffffff] items-center justify-center md:min-h-screen w-full md:w-1/2 p-5'>
+                <div className='h-auto flex bg-[#ffffff] items-center justify-center md:min-h-screen w-full md:w-1/2 p-5'>
                     <Outlet></Outlet>
                 </div>
                 <div className="flex items-center justify-center bg-[#fafdf0] h-auto md:min-h-screen w-full md:w-1/2 p-5">
