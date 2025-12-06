@@ -1,18 +1,18 @@
 import React from 'react';
 import Logo from '../../Components/Logo/Logo';
 import { IoIosHome } from "react-icons/io";
-import { IoMdSettings } from "react-icons/io";
 import { Outlet, useNavigate } from 'react-router';
 import { SiMyget } from "react-icons/si";
 
 import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb";
 import { FaCreditCard, FaUsers } from 'react-icons/fa';
-import { MdApproval } from 'react-icons/md';
 import { RiEBike2Fill } from 'react-icons/ri';
+import useRole from '../../Hooks/useRole/useRole';
 
 
 const DashBoard = () => {
     const navigate = useNavigate();
+    const { role } = useRole();
     return (
         <div className="drawer lg:drawer-open">
             <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -78,15 +78,17 @@ const DashBoard = () => {
                                 <span className="is-drawer-close:hidden">Payment History</span>
                             </button>
                         </li>
-                        <li>
-                            <button
-                                onClick={() => navigate('/dashboard/users-managements')}
-                                className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Users Management">
-                                {/* Settings icon */}
-                                <FaUsers className="my-1.5 inline-block size-4" />
-                                <span className="is-drawer-close:hidden">Payment History</span>
-                            </button>
-                        </li>
+                        {
+                            role === 'admin' && <li>
+                                <button
+                                    onClick={() => navigate('/dashboard/users-managements')}
+                                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Users Management">
+                                    {/* Settings icon */}
+                                    <FaUsers className="my-1.5 inline-block size-4" />
+                                    <span className="is-drawer-close:hidden">Payment History</span>
+                                </button>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

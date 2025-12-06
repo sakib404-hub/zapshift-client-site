@@ -25,56 +25,78 @@ const UserManagement = () => {
     }
 
     const handleToogleUser = (user) => {
-        const roleInfo = {
-            role: 'admin'
-        }
-        axiosSecure.patch(`/users/${user._id}`, roleInfo)
-            .then((res) => {
-                if (res.data.modifiedCount) {
-                    refetch();
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'User Promoted!',
-                        text: `${user.displayName} is now an Admin.`,
-                        confirmButtonColor: '#3085d6',
+        Swal.fire({
+            title: `Promote ${user.displayName} to Admin?`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Promote!',
+            cancelButtonText: 'Cancel',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const roleInfo = { role: 'admin' };
+                axiosSecure
+                    .patch(`/users/${user._id}`, roleInfo)
+                    .then((res) => {
+                        if (res.data.modifiedCount) {
+                            refetch();
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'User Promoted!',
+                                text: `${user.displayName} is now an Admin.`,
+                                confirmButtonColor: '#3085d6',
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: `Something went wrong. Please try again. ${error.message}`,
+                            confirmButtonColor: '#d33',
+                        });
                     });
-                }
-            })
-            .catch((error) => {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error!',
-                    text: `Something went wrong. Please try again, ${error.message}`,
-                    confirmButtonColor: '#d33',
-                });
-            })
-    }
+            }
+        });
+    };
 
     const removeFromAdmin = (user) => {
-        const updateInfo = {
-            role: 'user'
-        }
-        axiosSecure.patch(`/users/${user._id}`, updateInfo)
-            .then((res) => {
-                if (res.data.modifiedCount) {
-                    refetch();
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Admin Removed!',
-                        text: `${user.displayName} is no longer an admin.`,
-                        confirmButtonColor: '#3085d6', // blue button
+        Swal.fire({
+            title: `Remove Admin Access from ${user.displayName}?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Remove!',
+            cancelButtonText: 'Cancel',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const updateInfo = { role: 'user' };
+                axiosSecure
+                    .patch(`/users/${user._id}`, updateInfo)
+                    .then((res) => {
+                        if (res.data.modifiedCount) {
+                            refetch();
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Admin Removed!',
+                                text: `${user.displayName} is no longer an Admin.`,
+                                confirmButtonColor: '#3085d6',
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: `Something went wrong. Please try again. ${error.message}`,
+                            confirmButtonColor: '#d33',
+                        });
                     });
-                }
-            })
-            .catch((error) => {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error!',
-                    text: `Something went wrong. Please try again, ${error.message}`,
-                    confirmButtonColor: '#d33', // red button
-                });
-            })
-    }
+            }
+        });
+    };
 
     return (
         <div className="p-6">
