@@ -1,12 +1,13 @@
 import React from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import useAuth from '../../Hooks/useAuth/useAuth';
-import { useLoaderData } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 import useAxios from '../../Hooks/useAxios/useAxios';
 
 const SendAPercel = () => {
     const axiosSecure = useAxios();
+    const navigate = useNavigate();
     const { user } = useAuth();
     const { register, handleSubmit, control, reset } = useForm();
 
@@ -68,6 +69,7 @@ const SendAPercel = () => {
             if (result.isConfirmed) {
                 axiosSecure.post('/percels', data)
                     .then((res) => {
+                        navigate('/dashboard')
                         Swal.fire({
                             title: "Parcel Sent!",
                             text: `Your parcel has been confirmed. Cost: ${cost}৳`,

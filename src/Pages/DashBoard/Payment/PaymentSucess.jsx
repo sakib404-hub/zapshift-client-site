@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import { CheckCircle } from "lucide-react";
 import useAxios from '../../../Hooks/useAxios/useAxios'
@@ -6,17 +6,25 @@ import useAxios from '../../../Hooks/useAxios/useAxios'
 const PaymentSuccess = () => {
     //getting the seesion id
     const [searchParams] = useSearchParams();
-    const sessionId = searchParams.get('session_id')
-    console.log(sessionId);
+    const sessionId = searchParams.get('session_id');
+    const [paymentInfo, setPaymentInfo] = useState({});
+    // console.log(sessionId);
 
     //calling axiosSecure 
     const axiosSecure = useAxios();
+    console.log(paymentInfo);
 
     // sending it the backend if needed 
     useEffect(() => {
         if (sessionId) {
-            axiosSecure.patch(`/payment-success?session_id=${sessionId}`).then((res) =>
-                console.log(res.data))
+            axiosSecure.patch(`/payment-success?session_id=${sessionId}`)
+                .then((res) => {
+                    console.log(res.data.message)
+                    setPaymentInfo({
+                        transactionId: res.data.transactionId,
+                        trackingId: res.data.trackingId,
+                    })
+                })
         }
     }, [axiosSecure, sessionId])
 
@@ -39,6 +47,10 @@ const PaymentSuccess = () => {
                     Your payment has been completed successfully.
                     Thank you for using our service!
                 </p>
+                <p>
+                    Your Transaction id : {paymentInfo.transactionId}
+                </p>
+                <p>Your Tracking id is : {paymentInfo.trackingId}</p>
 
                 {/* Button */}
                 <Link
