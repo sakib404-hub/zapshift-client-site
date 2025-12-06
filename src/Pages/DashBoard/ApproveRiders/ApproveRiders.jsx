@@ -2,16 +2,47 @@ import React from 'react';
 import useAxios from '../../../Hooks/useAxios/useAxios';
 import { useQuery } from '@tanstack/react-query';
 import Loader from '../../../Components/Loader/Loader';
+import Swal from 'sweetalert2';
 
 const ApproveRiders = () => {
     const axiosSecure = useAxios();
-    const { data: riders = [], isLoading } = useQuery({
+    const { data: riders = [], isLoading, refetch } = useQuery({
         queryKey: ['riders', 'pending'],
         queryFn: async () => {
             const res = await axiosSecure.get('/riders')
             return res.data;
         }
     })
+    //handling approve or remove
+    const handleApproval = (id) => {
+        const updateInfo = { status: 'approved' }
+        axiosSecure.patch(`/riders/${id}`, updateInfo)
+            .then((res) => {
+                if (res.data.modifiedCount) {
+                    Swal.fire({
+                        title: "Success!",
+                        text: `Rider status has been updated successfully.`,
+                        icon: "success",
+                        confirmButtonText: "Okay",
+                        timer: 2000,
+                        timerProgressBar: true,
+                        showConfirmButton: false
+                    });
+                    refetch();
+                }
+            })
+            .catch((error) => {
+                Swal.fire({
+                    title: "Oops!",
+                    text: error.response?.data?.message || "Something went wrong. Please try again.",
+                    icon: "error",
+                    confirmButtonText: "Retry",
+                    color: "#fff",
+                    background: "#d9534f",
+                    confirmButtonColor: "#000",
+                });
+            })
+    }
     if (isLoading) {
         return <Loader></Loader>
     }
@@ -49,6 +80,7 @@ const ApproveRiders = () => {
                                 <td className=" px-4 py-2">{new Date(rider.createdAt).toLocaleString()}</td>
                                 <td className="flex items-center justify-center px-4 py-2 space-x-2">
                                     <button
+                                        onClick={() => handleApproval(rider._id)}
                                         className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600"
                                     >
                                         Approve
