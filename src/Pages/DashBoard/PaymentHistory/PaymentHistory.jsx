@@ -22,7 +22,7 @@ const PaymentHistory = () => {
     if (isLoading) {
         return <Loader></Loader>
     }
-    console.log([payments]);
+    // console.log([payments]);
     return (
         <div className="p-4 md:p-8">
             <h2 className="text-3xl font-semibold mb-6">Payment History</h2>
