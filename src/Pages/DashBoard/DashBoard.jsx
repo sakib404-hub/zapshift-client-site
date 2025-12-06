@@ -7,6 +7,8 @@ import { SiMyget } from "react-icons/si";
 
 import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb";
 import { FaCreditCard } from 'react-icons/fa';
+import { MdApproval } from 'react-icons/md';
+import { RiEBike2Fill } from 'react-icons/ri';
 
 
 const DashBoard = () => {
@@ -61,9 +63,18 @@ const DashBoard = () => {
                         <li>
                             <button
                                 onClick={() => navigate('/dashboard/payment-history')}
-                                className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Percels">
+                                className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Payment History">
                                 {/* Settings icon */}
                                 <FaCreditCard className="my-1.5 inline-block size-4" />
+                                <span className="is-drawer-close:hidden">Payment History</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                onClick={() => navigate('/dashboard/approve-riders')}
+                                className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Approve Riders">
+                                {/* Settings icon */}
+                                <RiEBike2Fill className="my-1.5 inline-block size-4" />
                                 <span className="is-drawer-close:hidden">Payment History</span>
                             </button>
                         </li>
