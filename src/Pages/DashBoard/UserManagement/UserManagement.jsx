@@ -50,6 +50,32 @@ const UserManagement = () => {
             })
     }
 
+    const removeFromAdmin = (user) => {
+        const updateInfo = {
+            role: 'user'
+        }
+        axiosSecure.patch(`/users/${user._id}`, updateInfo)
+            .then((res) => {
+                if (res.data.modifiedCount) {
+                    refetch();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Admin Removed!',
+                        text: `${user.displayName} is no longer an admin.`,
+                        confirmButtonColor: '#3085d6', // blue button
+                    });
+                }
+            })
+            .catch((error) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: `Something went wrong. Please try again, ${error.message}`,
+                    confirmButtonColor: '#d33', // red button
+                });
+            })
+    }
+
     return (
         <div className="p-6">
             {/* Header */}
@@ -110,7 +136,8 @@ const UserManagement = () => {
                                 <td className='text-3xl text-center space-x-2'>
                                     {
                                         user.role === 'admin' ? <button
-                                            className='btn bg-red-300'>
+                                            className='btn bg-red-300'
+                                            onClick={() => removeFromAdmin(user)}>
                                             <FaUserSlash></FaUserSlash>
                                         </button> : <button
                                             className='btn bg-green-300'
