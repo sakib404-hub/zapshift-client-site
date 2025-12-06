@@ -6,6 +6,7 @@ import useAuth from '../../Hooks/useAuth/useAuth';
 import Swal from 'sweetalert2';
 import SocialLogin from '../SocialLogin/SocialLogin';
 import axios from 'axios';
+import useAxios from '../../Hooks/useAxios/useAxios';
 
 const Registratation2 = () => {
     const [showPass, setShowPass] = useState(false);
@@ -13,6 +14,7 @@ const Registratation2 = () => {
     const { createUser, updateInformation, setUser } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
+    const axiosSecure = useAxios();
 
     //Handling the eye toogle
     const handleEyeToggle = () => {
@@ -39,6 +41,11 @@ const Registratation2 = () => {
         //creating the User
         createUser(data.email, data.password)
             .then((result) => {
+                const userInformation = {
+                    email: data.email,
+                    displayName: data.name,
+                    photoURL: profile.photoURL
+                }
                 updateInformation(profile)
                     .then(() => {
                         Swal.fire({
@@ -51,6 +58,13 @@ const Registratation2 = () => {
                             toast: true,
                             timerProgressBar: true
                         });
+                        axiosSecure.post('/users', userInformation)
+                            .then((res) => {
+                                console.log(res.data)
+                            })
+                            .catch((error) => {
+                                console.log(error.message)
+                            })
                         setUser(result.user)
                         reset();
                         navigate(location.state || '/');

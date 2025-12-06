@@ -64,7 +64,7 @@ const DashBoard = () => {
                                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Percels">
                                 {/* Settings icon */}
                                 <FaCreditCard className="my-1.5 inline-block size-4" />
-                                <span className="is-drawer-close:hidden">My Percels</span>
+                                <span className="is-drawer-close:hidden">Payment History</span>
                             </button>
                         </li>
                     </ul>
