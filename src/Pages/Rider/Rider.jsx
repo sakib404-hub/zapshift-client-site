@@ -3,12 +3,15 @@ import { useForm, useWatch } from 'react-hook-form';
 import riderImg from '../../assets/agent-pending.png'
 import useAuth from '../../Hooks/useAuth/useAuth';
 import { useLoaderData } from 'react-router';
+import useAxios from '../../Hooks/useAxios/useAxios';
+import Swal from 'sweetalert2';
 
 const Rider = () => {
     const { user } = useAuth();
-    const { register, handleSubmit, control } = useForm();
+    const axiosSecure = useAxios();
+    const { register, handleSubmit, control, reset } = useForm();
     const serviceCenter = useLoaderData();
-    const senderRegion = useWatch({ control, name: 'senderRegion' })
+    const senderRegion = useWatch({ control, name: 'ridersRegion' })
     const dublicateRegions = serviceCenter.map((c) => c.region)
     const regions = [...new Set(dublicateRegions)];
     const districtByRegion = (region) => {
@@ -16,8 +19,32 @@ const Rider = () => {
         const district = regionDistricts.map((region) => region.district);
         return district;
     }
-    const handleFormSubmission = (data) => {
-        console.log(data);
+    const handleRiderApplication = (data) => {
+        axiosSecure.post('/riders', data)
+            .then((res) => {
+                Swal.fire({
+                    title: "Success!",
+                    text: "Your rider application has been submitted successfully, we will reach you within 145 days!",
+                    icon: "success",
+                    confirmButtonText: "Okay",
+                    timer: 2000,
+                    timerProgressBar: true,
+                    showConfirmButton: false
+                });
+                console.log(res);
+                reset();
+            })
+            .catch((error) => {
+                Swal.fire({
+                    title: "Oops!",
+                    text: error.response?.data?.message || "Something went wrong. Please try again.",
+                    icon: "error",
+                    confirmButtonText: "Try Again",
+                    color: "#fff",
+                    background: "#d9534f",
+                    confirmButtonColor: "#000",
+                });
+            })
     }
     return (
         <div className=' bg-white'>
@@ -29,12 +56,11 @@ const Rider = () => {
                 <div className='p-2 md:p-10'>
                     <h2 className='text-2xl font-semibold'>Tell Us about Yourself</h2>
                     <form
-                        onSubmit={handleSubmit(handleFormSubmission)}>
-                        {/* percel type  */}
+                        onSubmit={handleSubmit(handleRiderApplication)}>
                         <div className='p-2 md:p-5'>
-                            {/* sender information  */}
+                            {/* riders information  */}
                             <div>
-                                {/* sender name  */}
+                                {/* riders name  */}
                                 <fieldset className="fieldset">
                                     <label
                                         htmlFor='riderName'
@@ -48,8 +74,9 @@ const Rider = () => {
                                         name='riderName'
                                         id='riderName'
                                         className="input w-full"
-                                        placeholder="Riders Name" />
-                                    {/* sender address  */}
+                                        placeholder="Riders Name"
+                                        readOnly />
+                                    {/* riders address  */}
                                     <label
                                         htmlFor='drivingLinscenceNumber'
                                         className="label">Riders Driving Liscence Number</label>
@@ -62,7 +89,7 @@ const Rider = () => {
                                         id='drivingLinscenceNumber'
                                         className="input w-full"
                                         placeholder="Riders Driving Liscence Number" />
-                                    {/* sender Email  */}
+                                    {/* riders Email  */}
                                     <label
                                         htmlFor='ridersEmail'
                                         className="label">Riders Email</label>
@@ -75,7 +102,8 @@ const Rider = () => {
                                         id='ridersEmail'
                                         defaultValue={user?.email}
                                         className="input w-full"
-                                        placeholder="Riders Email" />
+                                        placeholder="Riders Email"
+                                        readOnly />
                                     {/* sender location */}
                                     <fieldset className="fieldset">
                                         <legend className="fieldset-legend">Riders Region</legend>
@@ -95,7 +123,7 @@ const Rider = () => {
                                             }
                                         </select>
                                     </fieldset>
-                                    {/* sender districts  */}
+                                    {/* riders districts  */}
                                     <fieldset className="fieldset">
                                         <legend className="fieldset-legend">Riders District</legend>
                                         <select
@@ -103,7 +131,7 @@ const Rider = () => {
                                             ...register('ridersDistrict')
                                             }
                                             defaultValue="Pick a browser" className="select w-full">
-                                            <option disabled={true}>Pick a District</option>
+                                            <option>Pick a District</option>
                                             {
                                                 districtByRegion(senderRegion).map((region, index) => {
                                                     return <option
@@ -113,7 +141,7 @@ const Rider = () => {
                                             }
                                         </select>
                                     </fieldset>
-                                    {/* sender phone Number  */}
+                                    {/* riders phone Number  */}
                                     <label
                                         htmlFor='nidNumber'
                                         className="label">Nid No</label>
@@ -127,7 +155,7 @@ const Rider = () => {
                                         className="input w-full"
                                         placeholder="Riders Nid Card Number" />
 
-                                    {/* sender phone Number  */}
+                                    {/* riders phone Number  */}
                                     <label
                                         htmlFor='riderContact'
                                         className="label">Rider Contact</label>
@@ -153,15 +181,15 @@ const Rider = () => {
                                         className="input w-full"
                                         placeholder="Bikes Registratation Number" />
                                     <label htmlFor='tellUsAboutYourSelf' className="label">
-                                        <span className="label-text font-semibold">Pickup Instruction</span>
+                                        <span className="label-text font-semibold">Tell Us About Yourself</span>
                                     </label>
-                                    {/* sender phone Number  */}
+                                    {/*riders phone Number*/}
                                     <textarea
                                         {...register('tellUsAboutYourSelf')}
                                         name="tellUsAboutYourSelf"
                                         id="tellUsAboutYourSelf"
                                         className="textarea textarea-bordered w-full h-32 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="Pickup Instruction"
+                                        placeholder="Tell us about Yourself"
                                     ></textarea>
                                 </fieldset>
                             </div>
@@ -169,7 +197,7 @@ const Rider = () => {
 
                         {/* submit button  */}
                         <div className='flex items-center justify-center font-bold my-5'>
-                            <button type='submit' className='btn btn-primary text-black font-bold'>Submit</button>
+                            <button type='submit' className='btn btn-primary text-black font-bold'>Apply as a Rider</button>
                         </div>
                     </form>
                 </div>
