@@ -2,11 +2,13 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import useAxios from '../../../Hooks/useAxios/useAxios';
 import Loader from '../../../Components/Loader/Loader';
+import { FaUserShield, FaUserSlash } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 
 const UserManagement = () => {
     const axiosSecure = useAxios();
 
-    const { isLoading, data: users = [] } = useQuery({
+    const { isLoading, data: users = [], refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
             try {
@@ -20,6 +22,32 @@ const UserManagement = () => {
 
     if (isLoading) {
         return <Loader />;
+    }
+
+    const handleToogleUser = (user) => {
+        const roleInfo = {
+            role: 'admin'
+        }
+        axiosSecure.patch(`/users/${user._id}`, roleInfo)
+            .then((res) => {
+                if (res.data.modifiedCount) {
+                    refetch();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'User Promoted!',
+                        text: `${user.displayName} is now an Admin.`,
+                        confirmButtonColor: '#3085d6',
+                    });
+                }
+            })
+            .catch((error) => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: `Something went wrong. Please try again, ${error.message}`,
+                    confirmButtonColor: '#d33',
+                });
+            })
     }
 
     return (
@@ -40,12 +68,13 @@ const UserManagement = () => {
                     {/* Head */}
                     <thead>
                         <tr>
-                            <th>Sl No.</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Joined At</th>
-                            <th>Action</th>
+                            <th className='text-center'>Sl No.</th>
+                            <th className='text-center'>Name</th>
+                            <th className='text-center'>Email</th>
+                            <th className='text-center'>Role</th>
+                            <th className='text-center'>Joined At</th>
+                            <th className='text-center'>Admin Action</th>
+                            <th className='text-center'>Others Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -68,19 +97,31 @@ const UserManagement = () => {
                                 <td>
                                     <span
                                         className={`badge badge-ghost ${user.role === 'admin'
-                                                ? 'badge-success'
-                                                : user.role === 'rider'
-                                                    ? 'badge-warning'
-                                                    : 'badge-primary'
+                                            ? 'badge-success'
+                                            : user.role === 'rider'
+                                                ? 'badge-warning'
+                                                : 'badge-primary'
                                             }`}
                                     >
                                         {user.role}
                                     </span>
                                 </td>
                                 <td>{new Date(user.createdAt).toLocaleDateString()}</td>
-                                <th>
+                                <td className='text-3xl text-center space-x-2'>
+                                    {
+                                        user.role === 'admin' ? <button
+                                            className='btn bg-red-300'>
+                                            <FaUserSlash></FaUserSlash>
+                                        </button> : <button
+                                            className='btn bg-green-300'
+                                            onClick={() => handleToogleUser(user)}>
+                                            <FaUserShield></FaUserShield>
+                                        </button>
+                                    }
+                                </td>
+                                <td>
                                     <button className="btn btn-ghost btn-xs">Details</button>
-                                </th>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
