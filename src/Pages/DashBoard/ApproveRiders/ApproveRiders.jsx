@@ -14,14 +14,15 @@ const ApproveRiders = () => {
         }
     })
     //handling approve or remove
-    const handleApproval = (id) => {
-        const updateInfo = { status: 'approved' }
+
+    const updateRider = (id, status) => {
+        const updateInfo = { status: status }
         axiosSecure.patch(`/riders/${id}`, updateInfo)
             .then((res) => {
                 if (res.data.modifiedCount) {
                     Swal.fire({
                         title: "Success!",
-                        text: `Rider status has been updated successfully.`,
+                        text: `Rider status has been updated to ${status}`,
                         icon: "success",
                         confirmButtonText: "Okay",
                         timer: 2000,
@@ -42,6 +43,12 @@ const ApproveRiders = () => {
                     confirmButtonColor: "#000",
                 });
             })
+    }
+    const handleApproval = (id) => {
+        updateRider(id, 'approved')
+    }
+    const handleRejection = (id) => {
+        updateRider(id, 'rejected')
     }
     if (isLoading) {
         return <Loader></Loader>
@@ -86,6 +93,7 @@ const ApproveRiders = () => {
                                         Approve
                                     </button>
                                     <button
+                                        onClick={() => handleRejection(rider._id)}
                                         className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
                                     >
                                         Reject
