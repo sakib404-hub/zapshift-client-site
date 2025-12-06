@@ -6,6 +6,7 @@ import { Outlet, useNavigate } from 'react-router';
 import { SiMyget } from "react-icons/si";
 
 import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb";
+import { FaCreditCard } from 'react-icons/fa';
 
 
 const DashBoard = () => {
@@ -58,10 +59,12 @@ const DashBoard = () => {
                             </button>
                         </li>
                         <li>
-                            <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Settings">
+                            <button
+                                onClick={() => navigate('/dashboard/payment-history')}
+                                className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Percels">
                                 {/* Settings icon */}
-                                <IoMdSettings className="my-1.5 inline-block size-4" />
-                                <span className="is-drawer-close:hidden">Settings</span>
+                                <FaCreditCard className="my-1.5 inline-block size-4" />
+                                <span className="is-drawer-close:hidden">My Percels</span>
                             </button>
                         </li>
                     </ul>

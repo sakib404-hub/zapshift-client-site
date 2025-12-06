@@ -12,14 +12,14 @@ const PaymentSuccess = () => {
 
     //calling axiosSecure 
     const axiosSecure = useAxios();
-    console.log(paymentInfo);
+    // console.log(paymentInfo);
 
     // sending it the backend if needed 
     useEffect(() => {
         if (sessionId) {
             axiosSecure.patch(`/payment-success?session_id=${sessionId}`)
                 .then((res) => {
-                    console.log(res.data.message)
+                    // console.log(res.data.message)
                     setPaymentInfo({
                         transactionId: res.data.transactionId,
                         trackingId: res.data.trackingId,
