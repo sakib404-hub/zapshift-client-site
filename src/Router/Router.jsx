@@ -36,6 +36,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/rider',
+                loader: () => fetch('/warehouses.json'),
                 element: <PrivateRoute>
                     <Rider></Rider>
                 </PrivateRoute>

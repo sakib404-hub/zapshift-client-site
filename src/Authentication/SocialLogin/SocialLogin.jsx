@@ -3,11 +3,15 @@ import { FcGoogle } from 'react-icons/fc';
 import useAuth from '../../Hooks/useAuth/useAuth';
 import Swal from 'sweetalert2';
 import { useLocation, useNavigate } from 'react-router';
+import useAxios from '../../Hooks/useAxios/useAxios';
 
 const SocialLogin = () => {
     const { googleLogin } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
+    const axiosSecure = useAxios();
+
+
 
     const handleGoogleLoginButtonClick = () => {
         googleLogin()
@@ -22,6 +26,19 @@ const SocialLogin = () => {
                     toast: true,
                     timerProgressBar: true
                 });
+                const userInformation = {
+                    email: result.user.email,
+                    displayName: result.user.displayName,
+                    photoURL: result.user.photoURL
+                }
+
+                axiosSecure.post('/users', userInformation)
+                    .then((res) => {
+                        console.log(res.data);
+                    })
+                    .catch((error) => {
+                        console.log(error.message)
+                    })
                 navigate(location.state || '/');
             })
             .catch((error) => {
