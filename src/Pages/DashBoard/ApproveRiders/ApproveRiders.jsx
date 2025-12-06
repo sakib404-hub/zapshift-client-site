@@ -15,8 +15,8 @@ const ApproveRiders = () => {
     })
     //handling approve or remove
 
-    const updateRider = (id, status) => {
-        const updateInfo = { status: status }
+    const updateRider = (id, email, status) => {
+        const updateInfo = { status: status, email: email }
         axiosSecure.patch(`/riders/${id}`, updateInfo)
             .then((res) => {
                 if (res.data.modifiedCount) {
@@ -44,11 +44,12 @@ const ApproveRiders = () => {
                 });
             })
     }
-    const handleApproval = (id) => {
-        updateRider(id, 'approved')
+    const handleApproval = (rider) => {
+        // console.log(rider);
+        updateRider(rider._id, rider.ridersEmail, 'approved')
     }
-    const handleRejection = (id) => {
-        updateRider(id, 'rejected')
+    const handleRejection = (rider) => {
+        updateRider(rider._id, rider.ridersEmail, 'rejected')
     }
     if (isLoading) {
         return <Loader></Loader>
@@ -87,13 +88,13 @@ const ApproveRiders = () => {
                                 <td className=" px-4 py-2">{new Date(rider.createdAt).toLocaleString()}</td>
                                 <td className="flex items-center justify-center px-4 py-2 space-x-2">
                                     <button
-                                        onClick={() => handleApproval(rider._id)}
+                                        onClick={() => handleApproval(rider)}
                                         className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600"
                                     >
                                         Approve
                                     </button>
                                     <button
-                                        onClick={() => handleRejection(rider._id)}
+                                        onClick={() => handleRejection(rider)}
                                         className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
                                     >
                                         Reject
