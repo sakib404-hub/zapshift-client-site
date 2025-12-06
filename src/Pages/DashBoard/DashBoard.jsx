@@ -6,7 +6,7 @@ import { Outlet, useNavigate } from 'react-router';
 import { SiMyget } from "react-icons/si";
 
 import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb";
-import { FaCreditCard } from 'react-icons/fa';
+import { FaCreditCard, FaUsers } from 'react-icons/fa';
 import { MdApproval } from 'react-icons/md';
 import { RiEBike2Fill } from 'react-icons/ri';
 
@@ -75,6 +75,15 @@ const DashBoard = () => {
                                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Approve Riders">
                                 {/* Settings icon */}
                                 <RiEBike2Fill className="my-1.5 inline-block size-4" />
+                                <span className="is-drawer-close:hidden">Payment History</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                onClick={() => navigate('/dashboard/users-managements')}
+                                className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Users Management">
+                                {/* Settings icon */}
+                                <FaUsers className="my-1.5 inline-block size-4" />
                                 <span className="is-drawer-close:hidden">Payment History</span>
                             </button>
                         </li>
