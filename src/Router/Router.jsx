@@ -22,6 +22,7 @@ import UserManagement from "../Pages/DashBoard/UserManagement/UserManagement";
 import AdminRoute from "../AdminRoute/AdminRoute";
 import AssignRiders from "../Pages/DashBoard/AssignRiders/AssignRiders";
 import DeliveryAssigned from "../Pages/DashBoard/DeliveryAssigned/DeliveryAssigned";
+import RiderRoute from "../RiderRoute/RiderRoute";
 
 export const router = createBrowserRouter([
     {
@@ -120,7 +121,9 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'delivery-assigned',
-                Component: DeliveryAssigned
+                element: <RiderRoute>
+                    <DeliveryAssigned></DeliveryAssigned>
+                </RiderRoute>
             }
         ]
     }
