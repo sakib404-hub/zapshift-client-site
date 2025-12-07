@@ -3,11 +3,12 @@ import React from 'react';
 import useAuth from '../../../Hooks/useAuth/useAuth';
 import useAxios from '../../../Hooks/useAxios/useAxios';
 import Loader from '../../../Components/Loader/Loader';
+import Swal from 'sweetalert2';
 
 const DeliveryAssigned = () => {
     const { user } = useAuth();
     const axiosSecure = useAxios();
-    const { data: percels = [], isLoading } = useQuery({
+    const { data: percels = [], isLoading, refetch } = useQuery({
         queryKey: ['percels', user?.email, 'driver-assigned'],
         queryFn: async () => {
             try {
@@ -18,6 +19,38 @@ const DeliveryAssigned = () => {
             }
         }
     })
+    const handleAcceptDelivery = (percel) => {
+        const percelInfo = {
+            deliveryStatus: 'Rider on the Way',
+        }
+        axiosSecure.patch(`/percels/${percel._id}/status`, percelInfo)
+            .then((res) => {
+                if (res.data.modifiedCount) {
+                    refetch();
+                    Swal.fire({
+                        title: "Delivery Accepted!",
+                        text: "You are now on the way to the customer.",
+                        icon: "success",
+                        confirmButtonText: "Ok",
+                        confirmButtonColor: "#16A34A",
+                        timer: 1800,
+                        timerProgressBar: true,
+                    });
+                }
+            })
+            .catch((error) => {
+                Swal.fire({
+                    title: "Action Failed!",
+                    text: `Unable to accept delivery. Please try again.${error.message}`,
+                    icon: "error",
+                    confirmButtonText: "Retry",
+                    confirmButtonColor: "#DC2626",
+                });
+
+            })
+    }
+
+
     if (isLoading) {
         return <Loader></Loader>
     }
@@ -46,7 +79,9 @@ const DeliveryAssigned = () => {
                                     <td>{percel.senderDistrict}</td>
                                     <td>{percel.deliveryInstruction}</td>
                                     <td className='space-x-4'>
-                                        <button className='btn btn-primary text-black'>
+                                        <button
+                                            onClick={() => handleAcceptDelivery(percel)}
+                                            className='btn btn-primary text-black'>
                                             Accept
                                         </button>
                                         <button className='btn btn-warning text-black'>
