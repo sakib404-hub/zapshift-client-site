@@ -6,7 +6,7 @@ import { SiMyget } from "react-icons/si";
 
 import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb";
 import { FaCreditCard, FaUsers } from 'react-icons/fa';
-import { RiEBike2Fill } from 'react-icons/ri';
+import { RiEBike2Fill, RiMailSendFill, RiMailSendLine } from 'react-icons/ri';
 import useRole from '../../Hooks/useRole/useRole';
 import { MdAssignmentInd } from 'react-icons/md';
 
@@ -70,6 +70,21 @@ const DashBoard = () => {
                                 <span className="is-drawer-close:hidden">Payment History</span>
                             </button>
                         </li>
+                        {/* links for the rider only  */}
+                        {
+                            role === 'rider' && <>
+                                <li>
+                                    <button
+                                        onClick={() => navigate('/dashboard/delivery-assigned')}
+                                        className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Delivery Assigned">
+                                        {/* Settings icon */}
+                                        <RiMailSendLine className="my-1.5 inline-block size-4"></RiMailSendLine>
+                                        <span className="is-drawer-close:hidden">Delivery Assigned</span>
+                                    </button>
+                                </li>
+                            </>
+                        }
+                        {/* links for the admin only  */}
                         {
                             role === 'admin' && <li>
                                 <button

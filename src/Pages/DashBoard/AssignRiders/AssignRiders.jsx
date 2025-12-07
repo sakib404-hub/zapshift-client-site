@@ -10,7 +10,7 @@ const AssignRiders = () => {
 
 
     // loading information 
-    const { data: percels = [] } = useQuery({
+    const { data: percels = [], refetch } = useQuery({
         queryKey: ['percels', 'pending-pickup'],
         queryFn: async () => {
             try {
@@ -50,6 +50,8 @@ const AssignRiders = () => {
         axiosSecure.patch(`/percel/${selectedPercel._id}`, riderAssignInfo)
             .then((res) => {
                 if (res.data.modifiedCount) {
+                    refetch();
+                    riderModalRef.current.close();
                     Swal.fire({
                         title: "Rider Assigned!",
                         text: "The rider has been successfully assigned to this parcel.",
@@ -140,7 +142,7 @@ const AssignRiders = () => {
                                             <td>{rider.ridersEmail}</td>
                                             <td><button
                                                 onClick={() => handleAssignRider(rider)}
-                                                className='btn btn-primary text-black'>Assign</button></td>
+                                                className='btn btn-primary text-black'>Find Riders</button></td>
                                         </tr>
                                     })
                                 }
