@@ -67,6 +67,7 @@ const ApproveRiders = () => {
                             <th className=" px-4 py-2">District</th>
                             <th className=" px-4 py-2">Status</th>
                             <th className=" px-4 py-2">Created At</th>
+                            <th className=" px-4 py-2">Work Status</th>
                             <th className=" px-4 py-2">Action</th>
                         </tr>
                     </thead>
@@ -86,6 +87,7 @@ const ApproveRiders = () => {
                                     </span>
                                 </td>
                                 <td className=" px-4 py-2">{new Date(rider.createdAt).toLocaleString()}</td>
+                                <td>{rider.workStatus}</td>
                                 <td className="flex items-center justify-center px-4 py-2 space-x-2">
                                     <button
                                         onClick={() => handleApproval(rider)}

@@ -1,9 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import useAxios from '../../../Hooks/useAxios/useAxios';
 
 const AssignRiders = () => {
     const axiosSecure = useAxios();
+    const riderModalRef = useRef();
+    const [selectedPercel, setSelectedPercel] = useState(null);
+
+
+    // loading information 
     const { data: percels = [] } = useQuery({
         queryKey: ['percels', 'pending-pickup'],
         queryFn: async () => {
@@ -15,6 +20,12 @@ const AssignRiders = () => {
             }
         }
     })
+
+    const openModal = (percel) => {
+        riderModalRef.current.showModal();
+        setSelectedPercel(percel);
+    }
+
     return (
         <div>
             <h2 className='text-3xl'>  Assign Riders : {percels.length}</h2>
@@ -47,6 +58,7 @@ const AssignRiders = () => {
                                         <td>{percel.trackingId}</td>
                                         <td>
                                             <button
+                                                onClick={() => openModal(percel)}
                                                 className='btn btn-primary text-black'>Assign Rider</button>
                                         </td>
                                     </tr>
@@ -56,6 +68,17 @@ const AssignRiders = () => {
                     </table>
                 </div>
             </div>
+            <dialog ref={riderModalRef} className="modal modal-bottom sm:modal-middle">
+                <div className="modal-box">
+                    <h3 className="font-bold text-lg">Hello!</h3>
+                    <p className="py-4">Press ESC key or click the button below to close</p>
+                    <div className="modal-action">
+                        <form method="dialog">
+                            <button className="btn">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
         </div>
     );
 };
