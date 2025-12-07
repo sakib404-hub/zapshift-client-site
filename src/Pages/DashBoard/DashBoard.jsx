@@ -69,15 +69,17 @@ const DashBoard = () => {
                                 <span className="is-drawer-close:hidden">Payment History</span>
                             </button>
                         </li>
-                        <li>
-                            <button
-                                onClick={() => navigate('/dashboard/approve-riders')}
-                                className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Approve Riders">
-                                {/* Settings icon */}
-                                <RiEBike2Fill className="my-1.5 inline-block size-4" />
-                                <span className="is-drawer-close:hidden">Payment History</span>
-                            </button>
-                        </li>
+                        {
+                            role === 'admin' && <li>
+                                <button
+                                    onClick={() => navigate('/dashboard/approve-riders')}
+                                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Approve Riders">
+                                    {/* Settings icon */}
+                                    <RiEBike2Fill className="my-1.5 inline-block size-4" />
+                                    <span className="is-drawer-close:hidden">Approve Riders</span>
+                                </button>
+                            </li>
+                        }
                         {
                             role === 'admin' && <li>
                                 <button
@@ -85,7 +87,7 @@ const DashBoard = () => {
                                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Users Management">
                                     {/* Settings icon */}
                                     <FaUsers className="my-1.5 inline-block size-4" />
-                                    <span className="is-drawer-close:hidden">Payment History</span>
+                                    <span className="is-drawer-close:hidden">Users Management</span>
                                 </button>
                             </li>
                         }

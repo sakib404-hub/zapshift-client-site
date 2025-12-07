@@ -1,18 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useState } from 'react';
 import useAxios from '../../../Hooks/useAxios/useAxios';
 import Loader from '../../../Components/Loader/Loader';
 import { FaUserShield, FaUserSlash } from 'react-icons/fa';
 import Swal from 'sweetalert2';
+import { IoSearch } from 'react-icons/io5';
 
 const UserManagement = () => {
     const axiosSecure = useAxios();
+    const [searchText, setSearchText] = useState('');
 
-    const { isLoading, data: users = [], refetch } = useQuery({
-        queryKey: ['users'],
+    const { data: users = [], refetch } = useQuery({
+        queryKey: ['users', searchText],
         queryFn: async () => {
             try {
-                const res = await axiosSecure.get('/users');
+                const res = await axiosSecure.get(`/users?searchText=${searchText}`);
                 return res.data;
             } catch (error) {
                 console.error(error);
@@ -20,9 +22,9 @@ const UserManagement = () => {
         },
     });
 
-    if (isLoading) {
-        return <Loader />;
-    }
+    // if (isLoading) {
+    //     return <Loader />;
+    // }
 
     const handleToogleUser = (user) => {
         Swal.fire({
@@ -108,6 +110,26 @@ const UserManagement = () => {
                 <span className="text-lg text-gray-600">
                     Total Users: {users.length}
                 </span>
+            </div>
+            <div className='flex items-center justify-center my-5'>
+                <div className="join">
+                    <div>
+                        <label
+                            htmlFor='name'
+                            className="input validator join-item">
+                            <IoSearch />
+                            <input
+                                type="text"
+                                name='name'
+                                placeholder="Search User"
+                                onChange={(event) => setSearchText(event.target.value)}
+                            />
+                        </label>
+                    </div>
+                    <button
+                        type='button'
+                        className="btn btn-primary join-item text-black font-semibold">Search</button>
+                </div>
             </div>
 
             {/* Table */}
