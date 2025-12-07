@@ -130,8 +130,8 @@ const MyPercels = () => {
                                 <th>Weight (kg)</th>
                                 <th>Sender</th>
                                 <th>Receiver</th>
-                                <th>Region</th>
-                                <th>District</th>
+                                <th>Tracking Id</th>
+                                <th>Delivery Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -173,9 +173,9 @@ const MyPercels = () => {
                                         </div>
                                     </td>
                                     {/* Region */}
-                                    <td>{item.receiverRegion}</td>
+                                    <td>{item?.trackingId}</td>
                                     {/* District */}
-                                    <td>{item.receiverDistrict}</td>
+                                    <td>{item?.deliveryStatus}</td>
                                     {/* Actions */}
                                     <td>
                                         <button className="btn btn-sm hover:bg-primary hover:text-black">

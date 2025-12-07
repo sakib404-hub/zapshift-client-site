@@ -10,7 +10,7 @@ const UserManagement = () => {
     const axiosSecure = useAxios();
     const [searchText, setSearchText] = useState('');
 
-    const { data: users = [], refetch } = useQuery({
+    const { data: users = [], refetch, isLoading } = useQuery({
         queryKey: ['users', searchText],
         queryFn: async () => {
             try {
@@ -102,6 +102,11 @@ const UserManagement = () => {
 
     return (
         <div className="p-6">
+            <div>
+                {
+                    isLoading && <Loader></Loader>
+                }
+            </div>
             {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
                 <h1 className="text-2xl font-semibold text-gray-800 mb-2 md:mb-0">

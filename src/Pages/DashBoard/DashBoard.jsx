@@ -8,6 +8,7 @@ import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb";
 import { FaCreditCard, FaUsers } from 'react-icons/fa';
 import { RiEBike2Fill } from 'react-icons/ri';
 import useRole from '../../Hooks/useRole/useRole';
+import { MdAssignmentInd } from 'react-icons/md';
 
 
 const DashBoard = () => {
@@ -83,6 +84,17 @@ const DashBoard = () => {
                         {
                             role === 'admin' && <li>
                                 <button
+                                    onClick={() => navigate('/dashboard/assign-riders')}
+                                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Assign Riders">
+                                    {/* Settings icon */}
+                                    <MdAssignmentInd className="my-1.5 inline-block size-4" />
+                                    <span className="is-drawer-close:hidden">Assign Riders</span>
+                                </button>
+                            </li>
+                        }
+                        {
+                            role === 'admin' && <li>
+                                <button
                                     onClick={() => navigate('/dashboard/users-managements')}
                                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Users Management">
                                     {/* Settings icon */}
@@ -91,6 +103,7 @@ const DashBoard = () => {
                                 </button>
                             </li>
                         }
+
                     </ul>
                 </div>
             </div>
