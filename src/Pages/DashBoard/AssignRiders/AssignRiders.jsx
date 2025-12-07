@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useRef, useState } from 'react';
 import useAxios from '../../../Hooks/useAxios/useAxios';
+import Swal from 'sweetalert2';
 
 const AssignRiders = () => {
     const axiosSecure = useAxios();
@@ -46,7 +47,29 @@ const AssignRiders = () => {
             riderEmail: rider.ridersEmail,
             percelId: selectedPercel._id
         }
-        axiosSecure.patch(``, riderAssignInfo)
+        axiosSecure.patch(`/percel/${selectedPercel._id}`, riderAssignInfo)
+            .then((res) => {
+                if (res.data.modifiedCount) {
+                    Swal.fire({
+                        title: "Rider Assigned!",
+                        text: "The rider has been successfully assigned to this parcel.",
+                        icon: "success",
+                        confirmButtonText: "Done",
+                        confirmButtonColor: "#16A34A", // Tailwind green-600
+                        timer: 1800,
+                        timerProgressBar: true,
+                    });
+                }
+            })
+            .catch((error) => {
+                Swal.fire({
+                    title: "Assignment Failed!",
+                    text: `Something went wrong while assigning the rider.${error.message}`,
+                    icon: "error",
+                    confirmButtonText: "Try Again",
+                    confirmButtonColor: "#DC2626", // Tailwind red-600
+                });
+            })
     }
 
     return (
