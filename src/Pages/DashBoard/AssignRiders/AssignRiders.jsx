@@ -20,10 +20,33 @@ const AssignRiders = () => {
             }
         }
     })
+    // console.log(!!selectedPercel);
+    // console.log(selectedPercel);
 
-    const openModal = (percel) => {
+    const { data: riders = [] } = useQuery({
+        queryKey: ['riders', selectedPercel?.senderDistrict, 'available'],
+        enabled: !!selectedPercel,
+        queryFn: async () => {
+            try {
+                const res = await axiosSecure.get(`/riders?status=approved&district=${selectedPercel?.senderDistrict}&workStatus=available`)
+                return res.data
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    })
+
+    const openModal = () => {
         riderModalRef.current.showModal();
-        setSelectedPercel(percel);
+    }
+    const handleAssignRider = (rider) => {
+        const riderAssignInfo = {
+            riderId: rider._id,
+            riderName: rider.riderName,
+            riderEmail: rider.ridersEmail,
+            percelId: selectedPercel._id
+        }
+        axiosSecure.patch(``, riderAssignInfo)
     }
 
     return (
@@ -58,7 +81,10 @@ const AssignRiders = () => {
                                         <td>{percel.trackingId}</td>
                                         <td>
                                             <button
-                                                onClick={() => openModal(percel)}
+                                                onClick={() => {
+                                                    setSelectedPercel(percel)
+                                                    openModal()
+                                                }}
                                                 className='btn btn-primary text-black'>Assign Rider</button>
                                         </td>
                                     </tr>
@@ -70,8 +96,34 @@ const AssignRiders = () => {
             </div>
             <dialog ref={riderModalRef} className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box">
-                    <h3 className="font-bold text-lg">Hello!</h3>
-                    <p className="py-4">Press ESC key or click the button below to close</p>
+                    <h3 className="font-bold text-lg">Riders -- {riders.length}</h3>
+                    <div className="overflow-x-auto">
+                        <table className="table">
+                            {/* head */}
+                            <thead>
+                                <tr>
+                                    <th>SL</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    riders.map((rider, index) => {
+                                        return <tr>
+                                            <th>{index + 1}</th>
+                                            <td>{rider.riderName}</td>
+                                            <td>{rider.ridersEmail}</td>
+                                            <td><button
+                                                onClick={() => handleAssignRider(rider)}
+                                                className='btn btn-primary text-black'>Assign</button></td>
+                                        </tr>
+                                    })
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                     <div className="modal-action">
                         <form method="dialog">
                             <button className="btn">Close</button>
