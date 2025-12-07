@@ -19,16 +19,18 @@ const DeliveryAssigned = () => {
             }
         }
     })
-    const handleAcceptDelivery = (percel) => {
+    const handleAcceptDelivery = (percel, status) => {
         const percelInfo = {
-            deliveryStatus: 'Rider on the Way',
+            deliveryStatus: status,
         }
+        const message = `Percel Status is Updated with ${status}`
         axiosSecure.patch(`/percels/${percel._id}/status`, percelInfo)
             .then((res) => {
-                if (res.data.modifiedCount) {
+                console.log(res.data);
+                if (res.data.acknowledged) {
                     refetch();
                     Swal.fire({
-                        title: "Delivery Accepted!",
+                        title: message,
                         text: "You are now on the way to the customer.",
                         icon: "success",
                         confirmButtonText: "Ok",
@@ -65,8 +67,9 @@ const DeliveryAssigned = () => {
                             <th>SL No.</th>
                             <th>Name</th>
                             <th>PickUp Location</th>
-                            <th>Delivery Instruction</th>
+                            <th>Delivery Status</th>
                             <th>Actions</th>
+                            <th>Other Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -77,15 +80,31 @@ const DeliveryAssigned = () => {
                                     <th>{index + 1}</th>
                                     <td>{percel.percelName}</td>
                                     <td>{percel.senderDistrict}</td>
-                                    <td>{percel.deliveryInstruction}</td>
+                                    <td>{percel.deliveryStatus}</td>
                                     <td className='space-x-4'>
+                                        {
+                                            percel.deliveryStatus === 'driver-assigned' ? <>
+                                                <button
+                                                    onClick={() => handleAcceptDelivery(percel, 'Rider on the Way')}
+                                                    className='btn btn-primary text-black'>
+                                                    Accept
+                                                </button>
+                                                <button className='btn btn-warning text-black'>
+                                                    Reject
+                                                </button></> : <>
+                                                <button className='btn btn-primary text-black'>Delivery Accepted</button>
+                                            </>
+                                        }
+                                    </td>
+                                    <td className='space-x-2'>
                                         <button
-                                            onClick={() => handleAcceptDelivery(percel)}
+                                            onClick={() => handleAcceptDelivery(percel, 'Marked as picked up')}
                                             className='btn btn-primary text-black'>
-                                            Accept
+                                            Marked as Picked Up!
                                         </button>
-                                        <button className='btn btn-warning text-black'>
-                                            Reject
+                                        <button
+                                            onClick={() => handleAcceptDelivery(percel, 'Marked as delivered!')} className='btn btn-warning text-black'>
+                                            Marked as Deliverd!
                                         </button>
                                     </td>
                                 </tr>
